@@ -1,0 +1,20 @@
+spring:  
+  cloud:  
+    config:
+      discovery: 
+        enabled: true
+        service-id: config
+      profile: dev #dev开发环境，test测试环境，pro生成运行环境
+      name: config  #应用名  
+eureka: 
+  client: 
+    serviceUrl:
+      defaultZone: http://merge:sMRwyAf15hidxzay@172.93.105.26:11000/eureka/
+      register-with-eureka: true
+      fetch-registry: true
+  instance: 
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    hostname: ${spring.cloud.client.ipAddress} 
+
+      

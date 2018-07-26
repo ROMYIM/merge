@@ -1,0 +1,393 @@
+[
+	{
+		"category": "G-IPTV",
+		"terms": [
+			{
+				"value": "searchtype",
+				"name": "Type",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "Sport",
+						"value": "Sport"
+					},
+					{
+						"title": "MBC",
+						"value": "MBC"
+					},
+					{
+						"title": "News",
+						"value": "News"
+					},
+					{
+						"title": "Arabic",
+						"value": "Arabic"
+					},
+					{
+						"title": "Movies",
+						"value": "Movies"
+					},
+					{
+						"title": "Entertainment",
+						"value": "Entertainment"
+					},
+					{
+						"title": "Kids",
+						"value": "Kids"
+					},
+					{
+						"title": "Factual",
+						"value": "Factual"
+					},
+					{
+						"title": "Other",
+						"value": "Other"
+					},
+					{
+						"title": "G265",
+						"value": ""
+					}
+				]
+			},
+			{
+				"value": "year",
+				"name": "Year",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "2018",
+						"value": "2018"
+					},
+					{
+						"title": "2017",
+						"value": "2017"
+					},
+					{
+						"title": "2016",
+						"value": "2016"
+					},
+					{
+						"title": "2015",
+						"value": "2015"
+					},
+					{
+						"title": "2014",
+						"value": "2014"
+					},
+					{
+						"title": "2013",
+						"value": "2013"
+					},
+					{
+						"title": "2012",
+						"value": "2012"
+					},
+					{
+						"title": "2011",
+						"value": "2011"
+					},
+					{
+						"title": "2010",
+						"value": "2010"
+					},
+					{
+						"title": "2009",
+						"value": "2009"
+					}
+				]
+			},
+			{
+				"value": "area",
+				"name": "Area",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "Argentina",
+						"value": "ar"
+					},
+					{
+						"title": "China",
+						"value": "cn"
+					},
+					{
+						"title": "France",
+						"value": "fr"
+					},
+					{
+						"title": "Turkey",
+						"value": "tr"
+					},
+					{
+						"title": "United States",
+						"value": "us"
+					},
+					{
+						"title": "Others",
+						"value": "zz"
+					}
+				]
+			},
+			{
+				"value": "sorts",
+				"name": "Sorts",
+				"list": [
+					{
+						"title": "By update",
+						"value": 0
+					},
+					{
+						"title": "By popular",
+						"value": 1
+					},
+					{
+						"title": "By reputation",
+						"value": 2
+					}
+				]
+			}
+		]
+	},
+	{
+		"category": "G-VOD",
+		"terms": [
+			{
+				"value": "searchtype",
+				"name": "Type",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "New Movie",
+						"value": "New Movie"
+					},
+					{
+						"title": "New Series",
+						"value": "New Series"
+					},
+					{
+						"title": "Hot Movie",
+						"value": "Hot Movie"
+					},
+					{
+						"title": "Movie",
+						"value": "Movie"
+					},
+					{
+						"title": "Series",
+						"value": "Series"
+					},
+					{
+						"title": "G265",
+						"value": "G265"
+					}
+				]
+			},
+			{
+				"value": "year",
+				"name": "Year",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "2015",
+						"value": "2015"
+					},
+					{
+						"title": "2014",
+						"value": "2014"
+					},
+					{
+						"title": "2013",
+						"value": "2013"
+					},
+					{
+						"title": "2012",
+						"value": "2012"
+					},
+					{
+						"title": "2011",
+						"value": "2011"
+					},
+					{
+						"title": "2010",
+						"value": "2010"
+					},
+					{
+						"title": "2009",
+						"value": "2009"
+					}
+				]
+			},
+			{
+				"value": "area",
+				"name": "Area",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "Argentina",
+						"value": "ar"
+					},
+					{
+						"title": "China",
+						"value": "cn"
+					},
+					{
+						"title": "France",
+						"value": "fr"
+					},
+					{
+						"title": "Britain",
+						"value": "uk"
+					},
+					{
+						"title": "United States",
+						"value": "us"
+					},
+					{
+						"title": "Others",
+						"value": "zz"
+					}
+				]
+			},
+			{
+				"value": "sorts",
+				"name": "Sorts",
+				"list": [
+					{
+						"title": "By update",
+						"value": 0
+					},
+					{
+						"title": "By popular",
+						"value": 1
+					},
+					{
+						"title": "By reputation",
+						"value": 2
+					}
+				]
+			}
+		]
+	},
+	{
+		"category": "G-TV",
+		"terms": [
+			{
+				"value": "searchtype",
+				"name": "Type",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					}
+				]
+			},
+			{
+				"value": "year",
+				"name": "Year",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "2015",
+						"value": "2015"
+					},
+					{
+						"title": "2014",
+						"value": "2014"
+					},
+					{
+						"title": "2013",
+						"value": "2013"
+					},
+					{
+						"title": "2012",
+						"value": "2012"
+					},
+					{
+						"title": "2011",
+						"value": "2011"
+					},
+					{
+						"title": "2010",
+						"value": "2010"
+					},
+					{
+						"title": "2009",
+						"value": "2009"
+					}
+				]
+			},
+			{
+				"value": "area",
+				"name": "Area",
+				"list": [
+					{
+						"title": "All",
+						"value": ""
+					},
+					{
+						"title": "Argentina",
+						"value": "ar"
+					},
+					{
+						"title": "China",
+						"value": "cn"
+					},
+					{
+						"title": "France",
+						"value": "fr"
+					},
+					{
+						"title": "Britain",
+						"value": "uk"
+					},
+					{
+						"title": "United States",
+						"value": "us"
+					},
+					{
+						"title": "Others",
+						"value": "zz"
+					}
+				]
+			},
+			{
+				"value": "sorts",
+				"name": "Sorts",
+				"list": [
+					{
+						"title": "By update",
+						"value": 0
+					},
+					{
+						"title": "By popular",
+						"value": 1
+					},
+					{
+						"title": "By reputation",
+						"value": 2
+					}
+				]
+			}
+		]
+	}
+]

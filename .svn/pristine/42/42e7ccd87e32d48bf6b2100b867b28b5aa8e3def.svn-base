@@ -1,0 +1,25 @@
+category.name=Name
+category.type=Type
+category.status=Status
+category.language=Language
+category.sequence=Sequence
+category.description=Description
+category.nolimited=No limited
+category.live=Live
+category.series=Series
+category.movie=Movie
+category.valid=Valid
+category.invalid=Invalid
+category.parent=parent
+category.channel.num=Channel Number
+
+
+category.add.language=Please add the language first
+category.delete.confirm=The delete will be deleted together with the child nodes, OK to delete?
+category.name.exists=Name already exists
+category.name.not.empty=Name can not be empty
+category.sequence.format=Sequence format is incorrect, please enter a non-negative integer
+
+superior.category=Superior category 
+play.level=play level
+category.playlevel.format=Playlevel format is incorrect, please enter a non-negative integer

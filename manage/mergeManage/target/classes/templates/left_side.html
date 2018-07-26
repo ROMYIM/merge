@@ -1,0 +1,74 @@
+<div  th:fragment="left_side">
+	<div id="sidebar"  class="nav-collapse ">
+	    <!-- sidebar menu start-->
+	    <ul class="sidebar-menu" id="nav-accordion">
+	    
+	    	  <p class="centered" style="margin-right:20%;"><a href="index"><img src="images/ui-sam.jpg" class="img-circle" width="60" /></a></p>
+	    	  <h5 class="centered" th:text="${session.username}" style="margin-right:20%;"></h5>
+	    	  	    	  	
+	        <!-- <li class="mt">
+	            <a class="active" href="index" id="index">
+	                <i class="fa fa-dashboard"></i>
+	                <span>主页管理</span>
+	            </a>
+	        </li> -->
+
+	         <li class="sub-menu">
+	            <a href="javascript:;" id="categoryManage">
+	                <i class="fa fa-th-large"></i>
+	                <span th:text="#{category.manage}"></span>
+	            </a>
+	            <ul class="sub" id="categorySub">
+	                <li id="category_li"><a href="category"><span th:text="#{category}"></span></a></li>
+	            </ul>
+	        </li>
+	        	        
+	        <li class="sub-menu">
+	            <a href="javascript:;" id="liveManage">
+	                <i class="fa fa-laptop"></i>
+	                <span th:text="#{channel.manage}"></span>
+	            </a>
+	            <ul class="sub" id="liveSub">
+	                <li id="live"><a href="channel"><span th:text="#{channel}"></span></a></li>
+	            </ul>
+	        </li>
+	        
+	        <li class="sub-menu">
+	            <a href="javascript:;" id="mergeManage">
+	                <i class="fa fa-user"></i>
+	                <span th:text="#{merge.manage}"></span>
+	            </a>
+	            <ul class="sub" id="mergeSub">
+	                <li id="mergeuser"><a href="mergeuser"><span th:text="#{merge.user}"></span></a></li>
+	                <li id="mergegroup"><a href="mergegroup"><span th:text="#{merge.group}"></span></a></li>
+	            </ul>
+	        </li>	
+	        
+	        <li class="sub-menu">
+	            <a href="javascript:;" id="agreementManage">
+	                <i class="fa fa-pencil"></i>
+	                <span th:text="#{agreement.manage}"></span>
+	            </a>
+	            <ul class="sub" id="agreementSub">
+	                <li id="agreementcontrol"><a href="agreementcontrol"><span th:text="#{agreement.control}"></span></a></li>
+	                <li id="agreementaccount"><a href="agreementaccount"><span th:text="#{agreement.account}"></span></a></li>
+	                <li id="agreementtest"><a href="agreementtest"><span th:text="#{agreement.test}"></span></a></li>
+	                <li id="playsearch"><a href="playsearch"><span th:text="#{agreement.search}"></span></a></li>
+	            </ul>
+	        </li>
+	        
+	        <li class="sub-menu">
+	            <a href="javascript:;" id="systemManage">
+	                <i class="fa fa-cog"></i>
+	                <span th:text="#{system.manage}"></span>
+	            </a>
+	            <ul class="sub" id="languageSub">
+	                <li id="languageManage"><a href="language"><span th:text="#{language.manage}"></span></a></li>
+	            </ul>
+	        </li>    
+	
+	    </ul>
+	    <!-- sidebar menu end-->
+	</div>
+
+</div>

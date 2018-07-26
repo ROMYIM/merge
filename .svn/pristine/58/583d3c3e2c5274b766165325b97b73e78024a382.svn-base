@@ -1,0 +1,21 @@
+spring: 
+  cloud: 
+    config: 
+      discovery:
+        enabled: false
+        service-id: config
+      profile: dev
+      label: 
+      
+   
+eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    hostname: ${spring.cloud.client.ipAddress}
+  client:
+    service-url:
+      defaultZone: http://windy:windy@192.168.7.129:9100/eureka/
+      register-with-eureka: true
+      fetch-registry: true

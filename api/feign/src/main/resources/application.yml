@@ -1,0 +1,7 @@
+server:
+  port: 9160
+
+spring:
+  application:
+    name: feign
+       

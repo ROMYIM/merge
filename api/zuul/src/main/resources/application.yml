@@ -1,0 +1,61 @@
+server:
+  port: 9190
+  tomcat:
+    accept-count: 1000
+    max-threads: 1000
+    max-connections: 2000
+    
+zuul:
+  host:
+    connect-timeout-millis: 200000 #单位毫秒
+    socket-timeout-millis: 200000
+    max-per-route-connections: 1000
+    max-total-connections: 1000
+  routes:
+    api-category:
+      path: /category/**
+      serviceId: category
+    api-live:
+      path: /channel/**
+      serviceId: channel
+    api-play:
+      path: /play/**
+      serviceId: play
+      
+#断路由执行的时间，单位是毫秒，超过这个时间，Hystrix将抛出TimeOUt异常
+hystrix:
+  command:
+    default:
+      execution:
+        #timeout:
+          #enabled: false
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600000
+
+
+       
+#ribbon.ConnectTimeout该参数用来设置路由转发请求的时候，创建请求连接的超时时间。执行超时将重试路由
+
+ribbon:
+  ReadTimeout: 200000
+  ConnectTimeout: 200000
+
+    
+spring:
+  application:
+    name: zuul
+  #配置redis缓存
+  redis: 
+    database: 0
+    host: ${redis.host}
+    password: ${redis.password}
+    port: ${redis.port}
+    timeout: 0
+    pool:
+      max-idle: 100
+      min-idle: 1
+      max-active: 1000
+      max-wait: -1
+    
+ 

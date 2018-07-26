@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.ChannelMapper">
+	<select id="getChannelList" resultType="com.merge.domain.ChannelBean">
+		select c.* from `channel` c left join `category_channel` cc on c.id=cc.channelid where 1=1
+		<if test="query!=''">
+		and c.name like '%${query}%'
+		</if>
+		<if test="status!=-1">
+		and c.status=#{status}
+		</if>
+		<if test="type!=-1">
+		and c.type=#{type}
+		</if>
+		<if test="language!=''">
+		and c.language=#{language}
+		</if>
+		<if test="cid!=0">
+		and cc.categoryid=#{cid}
+		</if>
+		order by c.sequence asc, c.createtime desc
+		limit #{startNum},#{pageNum}
+	</select>
+	
+	<select id="getCountChannel" resultType="int">
+		select count(c.id) from `channel` c left join `category_channel` cc on c.id=cc.channelid where 1=1 
+		<if test="query!=''">
+		and c.name like '%${query}%'
+		</if>
+		<if test="status!=-1">
+		and c.status=#{status}
+		</if>
+		<if test="type!=-1">
+		and c.type=#{type}
+		</if>
+		<if test="language!=''">
+		and c.language=#{language}
+		</if>
+		<if test="cid!=0">
+		and cc.categoryid=#{cid}
+		</if>
+	</select>
+
+	<select id="judgeCallsign" resultType="int">
+		select count(callsign) from `channel` where callsign = #{callsign}
+	</select>
+	
+	<insert id="addChannel" parameterType="com.merge.domain.ChannelBean">
+		insert into `channel` (name, callsign, `sequence`, type, status, language, description, createtime)
+		values (#{name}, #{callsign}, #{sequence}, #{type}, #{status}, #{language}, #{description}, #{createtime})
+	</insert>
+
+	<update id="editChannel" parameterType="com.merge.domain.ChannelBean">
+		update `channel` set name = #{name}, callsign=#{callsign}, sequence=#{sequence}, type=#{type}, status=#{status}, 
+		language=#{language}, description=#{description}
+		where id = #{id}
+	</update>
+	
+	<select id="getChannelById" resultType="com.merge.domain.ChannelBean">
+		select * from channel where id=#{id}
+	</select>
+	
+	<update id="onlineOrOffline">
+		update `channel` set status=#{status} where id in (${ids})
+	</update>
+	
+	<delete id="deleteChannelById">
+		delete from `channel` where id in (${ids})
+	</delete>
+	
+	<update id="changeSequence">
+		update `channel` set sequence=#{sequence} where id=#{id} 
+	</update>
+</mapper>

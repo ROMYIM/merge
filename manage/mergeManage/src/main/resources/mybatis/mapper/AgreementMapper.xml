@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.AgreementMapper">
+	<select id="getAgreementList" resultType="com.merge.domain.AgreementBean">
+		select * from `agreement` where 1=1
+		order by ${sortName} ${Order}
+		limit #{startNum},#{pageNum}
+	</select>
+	
+	<select id="getCountAgreement" resultType="int">
+		select count(*) from `agreement`
+	</select>
+	
+	<select id="getAgreementById" resultType="com.merge.domain.AgreementBean">
+		select * from `agreement` where id=#{id}
+	</select>
+
+	<insert id="addAgreement" parameterType="com.merge.domain.AgreementBean">
+		insert into `agreement` (name, `sequence`, description) values (#{name}, #{sequence}, #{description})
+	</insert>
+
+	<update id="editAgreement" parameterType="com.merge.domain.AgreementBean">
+		update `agreement` set name = #{name}, `sequence`=#{sequence}, description=#{description} 
+		where id = #{id}
+	</update>
+	
+	<delete id="delAgreement">
+		delete from `agreement` where id in (${ids})
+	</delete>
+	
+	<select id="getAllAgreement" resultType="com.merge.domain.AgreementBean">
+		select * from `agreement` order by sequence asc
+	</select>
+	
+</mapper>

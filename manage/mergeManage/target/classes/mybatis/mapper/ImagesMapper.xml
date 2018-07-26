@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.ImagesMapper">
+
+	<insert id="addImages" parameterType="com.merge.domain.ImagesBean">
+		insert into `images` (picname, picpath, pictype, description, channelid, addtype) 
+		values 
+		(#{picname}, #{picpath}, #{pictype}, #{description}, #{channelid}, #{addtype})
+	</insert>
+
+	<update id="editImages" parameterType="com.merge.domain.ImagesBean">
+		update `images` set picname = #{picname}, picpath=#{picpath}, pictype=#{pictype},
+		description=#{description}, addtype=#{addtype}
+		where id = #{id}
+	</update>
+	
+	<select id="getPtInfoById" resultType="com.merge.domain.ImagesBean">
+		select * from `images` where id=#{pid}
+	</select>
+	
+	<select id="getPtByChannelid" resultType="com.merge.domain.ImagesBean">
+		select id, picname, pictype from `images` where channelid=#{channelid}
+	</select>
+	
+	<delete id="delPtByIds">
+		delete from `images` where id in (${ids})
+	</delete>
+	
+	<select id="getPtByIds" resultType="com.merge.domain.ImagesBean">
+		select * from `images` where id in (${ids})
+	</select>
+	
+	<delete id="delPtByChannelids">
+		delete from `images` where channelid in (${ids})
+	</delete>
+	
+	<select id="getPtByChannelids" resultType="com.merge.domain.ImagesBean">
+		select * from `images` where 1=1
+		and channelid in (${channelids}) and addtype=#{addtype}
+	</select>
+</mapper>

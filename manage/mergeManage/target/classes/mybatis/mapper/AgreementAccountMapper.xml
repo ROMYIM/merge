@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.AgreementAccountMapper">
+	<select id="getAccountList" resultType="com.merge.domain.AgreementAccountBean">
+		select * from `agreement_account` where 1=1
+		order by ${sortName} ${Order}
+		limit #{startNum},#{pageNum}
+	</select>
+	
+	<select id="getCountAccount" resultType="int">
+		select count(*) from `agreement_account`
+	</select>	
+
+	<insert id="addAccount" parameterType="com.merge.domain.AgreementAccountBean">
+		insert into `agreement_account` (code, mac, sn, type, sequence) values (#{code}, #{mac}, #{sn}, #{type}, #{sequence})
+	</insert>
+	
+	<delete id="delAccount">
+		delete from `agreement_account` where id in (${ids})
+	</delete>
+	
+	<select id="getAccountLimitList" resultType="com.merge.domain.AgreementAccountBean">
+		select * from `agreement_account` where `status`=0 || `status`=-1 order by type limit #{offset},#{limit}
+	</select>
+	
+	<update id="setStatusAndError" parameterType="com.merge.domain.AgreementAccountBean">
+		update `agreement_account` set status=#{status}, errorstr=#{errorstr}
+		where id=#{id}
+	</update>
+	
+	<select id="getAccountStatus" resultType="com.merge.domain.AgreementAccountBean">
+		select * from `agreement_account` where status != 0 
+		<if test="status != -2">
+			and status = #{status}
+		</if>
+		<if test="query!=''">
+			and type = #{query}
+		</if>
+		<if test="type!=''">
+			and type = #{type}
+		</if>
+		order by type
+		limit #{startNum},#{pageNum}
+	</select>
+	
+	<select id="getCountAccountStatus" resultType="int">
+		select count(*) from `agreement_account` where status != 0
+		<if test="status != -2">
+			and status = #{status}
+		</if>
+		<if test="type!=''">
+			and type = #{type}
+		</if>
+	</select>
+</mapper>

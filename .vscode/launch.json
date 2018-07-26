@@ -1,0 +1,136 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<aaa>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "merge.aaa.App",
+            "projectName": "aaa",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-AES<aaa>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "merge.aaa.util.AES",
+            "projectName": "aaa",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-AuthenticatorUtil<aaa>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "merge.aaa.util.AuthenticatorUtil",
+            "projectName": "aaa",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ThreeDES<aaa>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "merge.aaa.util.ThreeDES",
+            "projectName": "aaa",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<category>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "merge.category.App",
+            "projectName": "category",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<channel>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "merge.channel.App",
+            "projectName": "channel",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<feign>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "merge.feign.App",
+            "projectName": "feign",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Application<iptv>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "com.iptv.Application",
+            "projectName": "iptv",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Application<merge_manage>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "com.merge.Application",
+            "projectName": "merge_manage",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MergeApiApplication<play>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "com.mocean.MergeApiApplication",
+            "projectName": "play",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<zuul>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "com.zuul.App",
+            "projectName": "zuul",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug (Attach)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 0
+        }
+    ]
+}

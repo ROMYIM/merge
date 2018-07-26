@@ -1,0 +1,43 @@
+server : 
+  port : 8500
+#logging:
+#  file: ./springboot.log
+spring: 
+  datasource: 
+      url: jdbc:mysql://192.168.7.28:3506/iptv?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=true&SSL=true
+      username: root
+      password: 
+      driverClassName: com.mysql.jdbc.Driver     
+  redis: 
+    database: 0
+    host: 192.168.7.119
+    password: windy
+    port: 6379
+    pool:
+      max-active: 8
+      max-wait: 0
+      max-idle: 8
+      min-idle: 0
+    timeout: 5000
+ # mvc:
+ #   static-path-pattern: classpath:/static/**
+  thymeleaf : 
+    cache : false 
+  data:
+    mongodb: 
+      uri: mongodb://windy:windy@192.168.7.119:27017/iptv
+mybatis: 
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+jedis :  
+    pool :  
+      host : 192.168.7.119  
+      port : 6379 
+      auth : windy
+      timeout : 1000 
+      config :  
+        maxTotal: 1000  
+        maxIdle: 200 
+        maxWaitMillis : 100000
+
+    

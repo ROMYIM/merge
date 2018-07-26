@@ -1,0 +1,58 @@
+#agreement_control
+agreement.control.add=Add agreement
+agreement.control.name=Name
+agreement.control.sequence=Sequence
+agreement.control.describe=Description
+
+agreement.control.sequence.format=Sequence format is incorrect, please enter a non-negative integer
+agreement.control.name.not.empty=Agreement name can not be empty
+
+#agreement_account
+agreement.account.add=Add agreement account
+agreement.account.sequence=Sequence
+agreement.account.code=Code
+agreement.account.mac=Macaddress
+agreement.account.sn=Sn
+agreement.account.type=Agreement
+
+agreement.account.code.not.empty=Code can not be empty
+agreement.account.add.agreement=Please add agreement first
+
+#agreement_test
+agreement.test.hour=(00-23)Hour
+agreement.test.minute=(00-59)Minute
+agreement.test.second=(00-59)Second
+agreement.test.interval=Interval(hour)
+agreement.test.timing=Timing
+ 
+agreement.test.confirm=Confirm to change the timing time? 
+agreement.test.timed.success=Timed success
+agreement.test.timed.fail=Timed fail
+agreement.test.timer.running=Prompt:Timer is running
+agreement.test.timer.notrunning=Prompt:Timer is not running
+agreement.test.hour.empty=Hour can not be empty
+agreement.test.hour.format=Hour format error
+agreement.test.minute.empty=Minute can not be empty
+agreement.test.minute.format=Minute format error
+agreement.test.second.empty=Second can not be empty
+agreement.test.second.format=Second format error
+agreement.test.interval.empty=Interval can not be empty
+agreement.test.interval.format=Interval format error
+
+agreement.test.exception=Exception list
+agreement.test.status=Status :
+agreement.test.type=Agreement Type :
+agreement.test.tabstatus=Status
+agreement.test.detail=Detail
+agreement.test.all=All
+agreement.test.request=Request fail
+agreement.test.notfound=Not found
+agreement.test.expiredOrBlocked=Expired or blocked
+agreement.test.unknown=Unknown
+
+#search
+agreement.search.user=User
+agreement.search.stream=Stream Name
+agreement.search.category=Category
+agreement.search.playurl=playUrl
+agreement.search.type=Type

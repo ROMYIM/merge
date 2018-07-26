@@ -1,0 +1,26 @@
+server:
+  port: 8301
+    
+mybatis: 
+  mapper-locations: classpath:Mapper/*.xml
+  
+spring: 
+  application:
+    name: category
+  #配置数据源
+  datasource:
+    druid: 
+      url: jdbc:mysql://${mysql.host}:${mysql.port}/merge?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=true&useSSL=false
+      username: ${mysql.username}
+      password: ${mysql.password}
+      driverClassName: com.mysql.jdbc.Driver
+     
+    
+  #配置redis缓存
+  redis: 
+    database: 0
+    host: ${redis.host}
+    password: ${redis.password}
+    port: ${redis.port}
+    timeout: 0
+      

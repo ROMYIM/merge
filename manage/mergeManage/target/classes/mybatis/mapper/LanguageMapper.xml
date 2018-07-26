@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.LanguageMapper">
+	<select id="getLanguageList" resultType="com.merge.domain.LanguageBean">
+		select * from `language` where 1=1
+		order by ${sortName} ${Order}
+		limit #{startNum},#{pageNum}
+	</select>
+	
+	<select id="getCountLanguage" resultType="int">
+		select count(*) from `language`
+	</select>
+	
+	<select id="judgeLanguage" resultType="int">
+		select count(name) from `language` where name = #{name}	
+	</select>
+	
+	<select id="getLanguageById" resultType="com.merge.domain.LanguageBean">
+		select * from `language` where id=#{id}
+	</select>
+
+	<insert id="addLanguage" parameterType="com.merge.domain.LanguageBean">
+		insert into `language` (name, `sequence`) values (#{name}, #{sequence})
+	</insert>
+
+	<update id="editLanguage" parameterType="com.merge.domain.LanguageBean">
+		update `language` set name = #{name}, `sequence`=#{sequence} where id = #{id}
+	</update>
+	
+	<delete id="delLanguage">
+		delete from `language` where id in (${ids})
+	</delete>
+	
+	<select id="getAllLanguage" resultType="com.merge.domain.LanguageBean">
+		select * from language order by sequence desc, id asc
+	</select>
+</mapper>

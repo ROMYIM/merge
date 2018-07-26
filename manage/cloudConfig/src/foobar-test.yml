@@ -1,0 +1,18 @@
+mysql: 
+  host: 127.0.0.1
+  port: 3506
+  database: iptv
+  username: root
+  password: 
+mongodb: 
+  host: 192.168.7.159
+  port: 27017
+  username: windy
+  password: windy
+  database: iptv 
+ftp: 
+  address: 192.168.7.159
+  port: 21
+  username: ftpwindy
+  password: windy
+  path: /opt/ftp/images 

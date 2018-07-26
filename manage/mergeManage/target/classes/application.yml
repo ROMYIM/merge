@@ -1,0 +1,33 @@
+server : 
+  port : 8500
+#logging:
+#  file: ./springboot.log
+spring: 
+  application:   
+    name: merge_manage 
+  datasource: 
+      url: jdbc:mysql://${mysql.host}:${mysql.port}/merge?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=true&SSL=true
+      username: ${mysql.username}
+      password: ${mysql.password}
+      driverClassName: com.mysql.jdbc.Driver     
+  thymeleaf : 
+    cache : false 
+  data: 
+    mongodb: 
+      uri: mongodb://${mongodb.username}:${mongodb.password}@${mongodb.host}:${mongodb.port}/merge
+      maxWaitMillis: 1000
+  #mvc:
+    #static-path-pattern: classpath:/static/**
+
+ftp: 
+  address: ${ftp.address}
+  port: ${ftp.port}
+  username: ${ftp.username}
+  password: ${ftp.password}
+  path: ${ftp.path}
+
+mybatis: 
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+    

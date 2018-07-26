@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.MergeGroupMapper">
+	<select id="getMergeGroupList" resultType="com.merge.domain.MergeGroupBean">
+		select * from `merge_group` where 1=1
+		<if test="query!=''">
+		and name like '%${query}%'
+		</if>
+		order by ${sortName} ${Order}
+		limit #{startNum},#{pageNum}
+	</select>
+	
+	<select id="getCountMergeGroup" resultType="int">
+		select count(*) from `merge_group` where 1=1
+		<if test="keyword!=''">
+		and name like '%${keyword}%'
+		</if>
+	</select>
+	
+	<select id="judgeMergeGroup" resultType="int">
+		select count(name) from `merge_group` where name = #{name}	
+	</select>
+	
+	<select id="getMergeGroupById" resultType="com.merge.domain.MergeGroupBean">
+		select * from `merge_group` where id=#{id}
+	</select>
+
+	<insert id="addMergeGroup" parameterType="com.merge.domain.MergeGroupBean">
+		insert into `merge_group` (name, description, createtime) values (#{name}, #{description}, #{createtime})
+	</insert>
+
+	<update id="editMergeGroup" parameterType="com.merge.domain.MergeGroupBean">
+		update `merge_group` set name = #{name}, description=#{description} where id = #{id}
+	</update>
+	
+	<delete id="delMergeGroup">
+		delete from `merge_group` where id in (${ids})
+	</delete>
+	
+	<select id="getAllMergeGroup" resultType="com.merge.domain.MergeGroupBean">
+		select id, name from `merge_group`
+	</select>
+</mapper>

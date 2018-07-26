@@ -1,0 +1,36 @@
+#merge_user
+mergeuser.status.all=All
+mergeuser.inactive=Inactive
+mergeuser.effective=Effective
+mergeuser.downtime=User downtime
+mergeuser.arrears.down=Arrears down
+mergeuser.recycling=Recycling
+
+mergeuser.add.account=Add Business account
+mergeuser.account=Business Account
+mergeuser.effect.time=Effective time
+mergeuser.password=Password
+mergeuser.confirm.password=Confirm password
+mergeuser.state=State
+mergeuser.group=Business Account group
+mergeuser.epg.group.mark=EPG group marking
+mergeuser.sequence=Sequence
+mergeuser.createtime=Create time
+
+mergeuser.account.empty=Business Account can not be empty
+mergeuser.account.exist=Business Account already exists
+mergeuser.password.empty=Password can not be empty
+mergeuser.confirm.password.empty=Confirmation password can not be empty
+mergeuser.pass.and.confirmpass=Password and confirmation password are not equal
+mergeuser.add.group=Please add business account group first
+mergeuser.add.category=Please add category first
+
+#merge_group
+mergegroup.sequence=Sequence
+mergegroup.name=Business Account group
+mergegroup.describe=Description
+mergegroup.createtime=Create time
+mergegroup.add=Increase Business Account group
+
+mergegroup.group.empty=Business Account group can not be empty
+mergegroup.group.exist=Business Account group already exists

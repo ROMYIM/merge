@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"></meta>
+<title>iptv test</title>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/jsonFormat.js?ver=1"></script> 
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css"/>
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css"/>
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<style type="text/css">td{padding-right:20px;}</style>
+</head>
+<body style="margin:0 auto;">
+	<div style="margin:20px 0px;margin-left:5px;">
+		<table> 
+			<tr>
+				<td>Code: <input type="text" id="code"/></td>
+				<td id="sntd"><span id="sntext">SN</span>: <input type="text" id="sn"/></td>
+				<td>Type: <select id="iptv_type" onchange="getType()">
+						<option value="0">samsat</option>
+						<option value="1">ms</option>
+						<option value="2">Brothers TV</option>
+						<option value="3">Orca IPTV</option>
+				</select></td>
+				<td id="streamtypetd">Stream Type: <select id="stream_type">
+						<option value="0">LIVE TV</option>
+						<option value="1">ENGLISH MOVIE</option>
+						<option value="2">FRENCH MOVIE</option>
+						<option value="3">ARABIC MOVIE</option>
+				</select></td>
+				<td id="uagent" style="display:none;">User-agent:<input type="text" id="useragent" value="" style="min-width:100px;margin-left:5px;"/></td>
+				<td><button id="login" onclick="login()">login</button></td>
+			</tr>
+		</table>
+	</div>
+	<div id="left-panel" style="width: 22%; float: left;margin-left:5px;">
+		<div id="category" class="easyui-accordion" style="height:632px;"></div>
+	</div>
+	<div id="channelList" class="easyui-panel" title="Channel List"
+		style="width: 76%;padding: 0;min-height: 632px; background: #fafafa;">
+		<table class="easyui-datagrid" id="list" style="width:100%;height:100%;"></table>
+	</div>	
+</body>
+<script type="text/javascript">
+/*<![CDATA[*/
+	var content="";
+	$(function(){
+		getType();
+	})
+	
+	function login() {
+		if(!judge())
+			return;
+		if(content != "") {
+		    content = "";
+		    $("#category").accordion("remove","Category");
+			$('#list').datagrid('loadData', { total: 0, rows: [] }); 
+		}
+		document.getElementById('login').disabled=true;
+		$.post("/loginIptv", {
+			action : "login",
+			type : $('#iptv_type option:selected').val(),
+			code : $("#code").val(),
+			sn : $("#sn").val(),
+			streamType : $('#stream_type option:selected').val()
+		}, function(data) {
+			if(data.indexOf("category") < 0 ){
+				 alert(data);
+			}else {
+				var category = JSON.parse(data).category;
+				var category_id = "";
+				for (var i = 0; i < category.length; i++) {
+					if (typeof(category[i].category_id) == "undefined"){ 
+						category_id =  "'"+category[i].category_name+"'";
+					}else {
+						category_id = category[i].category_id;
+					}
+					content += '<li><a onclick="initLiveList('
+						+ category_id + ')" href="javascript:;">'
+							+ category[i].category_name + '</a></li>'
+				}					
+				$("#category").accordion('add', {
+					title : "Category",
+					content : '<div style="padding:10px">' + content + '</div>'
+				});
+			} 
+			document.getElementById('login').disabled=false;
+		})
+		.error(function() { 
+			alert("server error");
+			document.getElementById('login').disabled=false; 
+		})
+	}
+	
+	function getType(){
+		//把所有数据清空 
+		//$("#code").val("");
+		//$("#sn").val("");
+		$("#useragent").val("");
+		document.getElementById("uagent").style.display="none";
+		if(content != "") {
+		    content = "";
+		    $("#category").accordion("remove","Category");
+			$('#list').datagrid('loadData', { total: 0, rows: [] }); 
+		}
+		//样式变化 
+		document.getElementById("streamtypetd").style.display="none";
+		if($('#iptv_type option:selected').val() == 2){
+			document.getElementById('sntd').style.display = "none";
+		}else{
+			document.getElementById('sntd').style.display = "block";
+			if($('#iptv_type option:selected').val() == 3){
+				document.getElementById("sntext").innerHTML = "Macaddress";
+				document.getElementById("streamtypetd").style.display="block";
+			}else {
+				document.getElementById("sntext").innerHTML = "SN";
+			}
+		}
+	}
+	
+	function judge() {
+		if ($("#code").val() == ""){
+			alert("code is not null");
+			return false;
+		}else if($("#sn").val() == "" && $('#iptv_type option:selected').val() != 2) {
+			if($('#iptv_type option:selected').val() == 3){
+				alert("Macaddress is not null");
+			}else {
+				alert("sn is not null");
+			}
+			return false;
+		}
+		return true;
+	}
+
+	var limit = 10;
+	function initLiveList(cid) {
+		var type = $('#iptv_type option:selected').val();
+		if (type == "1") {
+			var uagent = getPlayUrl(type);
+			document.getElementById("uagent").style.display="block";
+			$("#useragent").val(uagent.user_agent);
+		}
+		$('#list').datagrid({
+			height : 600,
+			url : "getChannelByCid",
+			queryParams : {
+				'categoryid' : cid, 
+				'code' : $("#code").val(),
+				'type' : $('#iptv_type option:selected').val(),
+				'streamType' : $('#stream_type option:selected').val()
+			},
+            pagination : true,
+            pageSize : limit,
+            pageList : [limit*1,limit*2,limit*3,limit*4],
+            rownumbers : true,
+			columns : [[
+			{
+				field : 'stream_id',
+				title : 'Streamid',
+				width : "10%"
+			}, {
+				field : 'stream_name',
+				title : 'Name',
+				width : "18%"
+			},{		
+				field : 'stream_icon',
+				title : 'Image',
+				width : "27%",
+				formatter : function(value, row, index) {
+					if (value != "") {
+						return '<img  style="max-width:150px;max-height:150px;" src="'+value+'"/>';				
+					}else {
+						return '';
+					}
+				}
+			},{
+				field : 'stream_url',
+				title : 'Stream_url',
+				/* width : "45%" */
+			}]]
+		});
+	}
+	
+	function getPlayUrl(type) {
+		var result = "";
+		$.ajax({
+	        type: "post",
+	        dataType: "json",
+	        url: 'getPlayUrl',
+	        async: false,
+	        data: {"type": type},
+	        success: function (data) {
+	        	result = data;
+	        }
+	    });
+    	return result;
+	}
+	 /*]]>*/
+</script>
+</html>

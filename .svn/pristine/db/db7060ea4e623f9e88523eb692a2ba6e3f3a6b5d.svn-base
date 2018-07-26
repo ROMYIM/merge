@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Program Manage</title>
+		<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-table.css" />
+		<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/bootstrap/js/bootstrap-table.js"></script>
+        <!--external css-->
+    	<link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+	    <link rel="stylesheet" type="text/css" href="js/gritter/css/jquery.gritter.css" />       
+	    <!-- Custom styles for this template -->
+	    <link href="css/style.css" rel="stylesheet" />
+	    <link href="css/style-responsive.css" rel="stylesheet" />
+	    <link href="css/channel.css" rel="stylesheet" />
+	</head>
+    <body>	
+    	<section id="container" >
+			<!-- header section start-->
+		  	<div th:include="header::header"></div>
+		  	<!-- header section end-->
+	      
+	      	<!--sidebar start-->
+	      	<aside th:include="left_side::left_side">
+	      	</aside>
+	      	<!--sidebar end-->
+      
+	      	<!-- **********************************************************************************************************************************************************
+	      	MAIN CONTENT
+	      	*********************************************************************************************************************************************************** -->
+	      	<!--main content start-->
+	      	<section id="main-content">
+          		<section class="wrapper">
+      				<div class="row mt">
+      					<div style="width:80%;float:left;min-height:600px;background:#fff">
+		    			<div class="panel-body" > 
+		    				<input name="channelStatus" id="channelStatus" value="-1" type="hidden" />
+		      				<div class="lf_biao_t01">
+		      					<span>
+		      						<strong th:text="#{channel.online.status}"></strong>：
+		      						<a href="javaScript:void(0)" id="search_channelStatus_" class="lf_biao_t01search" onclick="setSearch(-1);" th:text="#{channel.nolimit}"></a> |
+		      						<a href="javaScript:void(0)" id="search_channelStatus_0" class="_search" onclick="setSearch(0);" th:text="#{online}"></a> |
+									<a href="javaScript:void(0)" id="search_channelStatus_1" class="_search" onclick="setSearch(1);" th:text="#{offline}"></a>		      						
+		      					</span>
+		      				</div>
+							<div id="toolbar" class="btn-group"> 
+				            	<form class="form-inline" style="width: 100%" onkeydown="if(event.keyCode==13){return false;}">
+									<button id="btn_add" type="button" class="btn btn-default" onclick="addChannel()" style="margin-right:10px;"> 
+										<span class="glyphicon glyphicon-plus" aria-hidden="true" th:text="#{add}"></span>
+				            	    </button>
+				            		<button id="btn_delete" type="button" class="btn btn-default" onclick="delChannel()" style="margin-right:10px;"> 
+				            			<span class="glyphicon glyphicon-remove" aria-hidden="true" th:text="#{delete}"></span>
+				            		</button> 
+									<div class="form-group">
+										<input type="text" id="keyword" class="form-control" placeholder="Channel Name" onkeydown="searchChannel()"/>
+										<button id="btn_delete" type="button" class="btn btn-default" value="search" onclick="queryChannel()">
+											<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+										</button>
+										<button id="btn_clean" type="button" class="btn btn-default" value="clean" onclick="cleanQuery()">
+											<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+										</button>
+									</div>
+								</form>
+				            </div> 
+				            <table id="channel" style="width:100%;border:1px solid #ccc;">
+				            </table> 
+				            
+					        <!-- return -->
+					    	<div style="margin-top:15px;">
+					    		<a href="category">
+					    			<button type="button" class="btn btn-default" style="float:right;margin-right:15px;">
+										<span class="glyphicon glyphicon-share-alt" aria-hidden="true" th:text="#{return}"></span>
+									</button>
+								</a>
+							</div>
+    					</div>
+    					</div>
+    					<div style="width:20%;float:right;background:#fff;min-height:600px;border-left:thin solid #dddddd;">
+		    			<!-- test start -->
+		    			<div class="panel-group" id="accordion">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" 
+										   href="#collapseOne">
+											<span th:text="#{channel.basicInfo}"></span>
+										</a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div id="channelInfo">
+										    <div class="content on">
+											   	<table class="t_basic_info">
+											   		<tr><td style="text-align: right;"><strong th:text="#{channel.name}"></strong>：</td><td><p id="channel_name" style="margin-top:8px;">&nbsp;</p></td></tr>
+											   		<tr><td style="text-align: right;"><strong th:text="#{channel.type}"></strong>：</td><td><p id="channel_type" style="margin-top:8px;">&nbsp;</p></td></tr>		   		
+											   		<tr><td style="text-align: right;"><strong th:text="#{channel.language}"></strong>：</td><td><p id="language_name" style="margin-top:8px;">&nbsp;</p></td></tr>
+											   		<tr><td style="text-align: right;"><strong th:text="#{channel.status}"></strong>：</td><td><p id="channel_status" style="margin-top:8px;">&nbsp;</p></td></tr>
+											   		<tr><td style="text-align: right;"><strong th:text="#{channel.callsign}"></strong>：</td><td><p id="channel_callsign" style="margin-top:8px;">&nbsp;</p></td></tr>		   	
+											   		<tr><td style="text-align: right;"><strong th:text="#{channel.createtime}"></strong>：</td><td><p id="channel_createtime" style="margin-top:8px;">&nbsp;</p></td></tr>
+											   		<tr><td style="text-align: right;"><strong th:text="#{channel.describe}"></strong>：</td><td><p id="channel_describe" style="margin-top:8px;">&nbsp;</p></td></tr>
+											   	</table>		
+											</div>	   
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" 
+										   href="#collapseTwo">
+											<span th:text="#{physical.channel}"></span>
+										</a>
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div id="physiclInfo_div">
+											<div class="content">
+												<div class="add01" style="margin-bottom:10px;">
+													<span class="glyphicon glyphicon-plus-sign" onclick="showPhysical('add')" style="padding-right:10px;" th:text="#{add}"></span>
+								            		<span class="glyphicon glyphicon-remove-sign" onclick="delPhysical()" style="padding-right:10px;" th:text="#{delete}"></span>
+								            		<input type="text" id="streamKeyword" placeholder="name" onkeydown="enterSearchStream()" style="width:34%;height:20px;"/>
+								            		<span class="glyphicon glyphicon-search" onclick="searchStream()"></span>
+								            		<span class="glyphicon glyphicon-trash" onclick="cleanStreamQuery()"></span>							           
+					            				</div>
+					            								          
+										    	<div class="suc_bt">
+										    		<table id="stream" style="width:100%;border:1px solid #ccc;" 
+										    			data-pagination="true"
+													 	data-id-field="id"
+													 	data-page-list="[6, 10, 25]"
+													 	data-show-footer="false"
+													 	data-response-handler="responseStreamHandler">
+					            					</table> 
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" 
+										   href="#collapseThree">
+											<span th:text="#{channel.picture}"></span>
+										</a>
+									</h4>
+								</div>
+								<div id="collapseThree" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div id="photoes">
+											<div class="content">
+												<div class="add01" style="margin-bottom:10px;">										   		
+											   		<span class="glyphicon glyphicon-plus-sign" onclick="addPt()" style="padding-right:10px;" th:text="#{add}"></span>
+								            		<span class="glyphicon glyphicon-edit" onclick="editPt()" style="padding-right:10px;" th:text="#{edit}"></span>
+								            		<span class="glyphicon glyphicon-remove-sign" onclick="delPt()" style="padding-right:10px;" th:text="#{delete}"></span>
+										   		</div>	
+										   		<hr style="margin:0;background-color:#ddd;height:1px;border:none;"/>							   		
+										    	<div class="suc_bt">
+										    		<table class="imgtable" id="picTab" style="width:100%;">
+										    			<thead><tr>
+													       	<td width="30%"><input id="allCheck" onclick="allcheck()" type="checkbox"/></td>
+													    	<td width="30%"><span th:text="#{channel.picname}"></span></td>
+													    	<td width="30%"><span th:text="#{channel.pictype}"></span></td>
+														</tr></thead>
+														<tbody></tbody>
+										    		</table>					
+										        </div>
+										        <p id="pt_content" class="dianyongbox"></p>
+										        <table class="t_basic_info">
+										        	<tr><td style="text-align: right;width:80px;"><strong th:text="#{channel.picname}"></strong>：</td><td style="text-align: left;"><p id="pt_name" style="padding-top:10px;">&nbsp;</p></td></tr>
+										            <tr><td style="text-align: right;width:80px;"><strong th:text="#{channel.picdescribe}"></strong>：</td><td style="text-align: left;"><p id="pt_describe" style="padding-top:10px;">&nbsp;</p></td></tr>
+										            <tr><td style="text-align: right;width:80px;"><strong th:text="#{channel.preview}"></strong>：</td><td style="text-align: left;"><a href="javaScript:void(0)" id="a_img" onclick="openImg(this)" title=""><img id="pt_img" alt='' width="100px"/></a></td></tr>
+										        </table>  
+											</div>
+										</div>	
+									</div>
+								</div>
+							</div>
+						</div>
+		    			<!-- test end -->
+		    			</div>
+											
+      				</div> <!--/ row -->
+          		</section> <!--/wrapper -->
+      		</section><!-- /MAIN CONTENT -->
+      		<!--main content end-->
+      	       
+  		</section>
+		<!-- 新增节目模态窗体 -->
+		<div class="modal fade" id="addChannelModal" role="dialog" tabindex="-1">
+			<div class="modal-dialog" role="document" style="width:620px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetChannel()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">
+							<span th:text="#{add.channel}"></span>
+						</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<input type="hidden" name="cid" id="cid" />
+						<div id="toolbar" class="btn-group" style="padding-left:15px;">
+							<form class="form-inline" style="width: 100%" onkeydown="if(event.keyCode==13){return false;}">
+								<div class="form-group">
+									<input type="text" id="searchByKeyword" class="form-control" placeholder="Channel Name" onkeydown="entersearch()"/>
+									<button id="btn_delete" type="button" class="btn btn-default" value="search" onclick="queryChannelList()">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+
+									<span style="margin-left:15px;margin-right:5px;" th:text="#{channel.type}"></span>：
+									<select class="form-control" id="searchByType">
+								    	<option value="-1"><span th:text="#{channel.type.any}"></span></option>
+								    	<option value="0"><span th:text="#{channel.live}"></span></option>
+								    	<option value="1"><span th:text="#{channel.program}"></span></option>
+							        </select>
+							        
+							        <span style="margin-left:15px;margin-right:5px;" th:text="#{channel.language}"></span>：
+									<select class="form-control" id="searchByLanguage" style="padding:6px 6px;">
+										<option value=''><span th:text="#{language.type.all}"></span></option>
+							        </select>
+								</div>
+							</form>
+						</div>
+
+						<div class="adv-table">
+							<br />
+							<table id="channelTable"
+								 data-pagination="true"
+								 data-search="false"
+								 data-id-field="id"
+								 data-click-to-select="true"
+								 data-page-list="[6, 10, 25]"
+								 data-show-footer="false"
+								 data-response-handler="responseHandler">
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							<span th:text="#{return}"></span>
+						</button>
+						<button type="button" class="btn  btn-default" id="resetBtn" onclick="resetChannel()">
+							<span th:text="#{reset}"></span>
+						</button>
+						<button type="button" class="btn  btn-default" onclick="channelManage()">
+							<span th:text="#{submit}"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 新增节目模态窗体end -->	
+  		<!-- physical start -->
+	      <div class="modal fade" id="physicalModal" role="dialog" tabindex="-1">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetStream()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">
+							<span th:text="#{add.agreement.program}"></span>
+						</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<input type="hidden" name="phycid" id="phycid" value="0" />
+						<div class="form-group">
+						<div id="toolbar" class="btn-group" style="padding-left:30px;">
+							<form class="form-inline" style="width: 100%" onkeydown="if(event.keyCode==13){return false;}">
+								<div class="form-group">
+									<input type="text" id="searchIStream" class="form-control" placeholder="Stream Name" onkeydown="enterphysicalsearch()"/>
+									<button id="btn_delete" type="button" class="btn btn-default" value="search" onclick="queryIStream()">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+	
+									<span style="margin-left:15px;margin-right:5px;" th:text="#{channel.agreement}"></span>：
+									<select class="form-control" id="searchByAgreementType">
+								    	<option value="-1"><span th:text="#{agreement.type.all}"></span></option>
+							        </select>
+							        
+							        <span style="margin-left:15px;margin-right:5px;" th:text="#{channel.stream.type}"></span>：
+									<select class="form-control" id="searchByStreamType">
+								    	<option value="all"><span th:text="#{channel.stream.type.all}"></span></option>
+								    	<option value="none">none</option>
+								    	<option value="live">live</option>
+								    	<option value="movie">movie</option>
+							        </select>
+								</div>
+							</form>
+						</div>
+	
+						<div class="adv-table" style="padding:0 15px;">
+							<br />
+							<table id="streamTable" data-pagination="true"
+													 data-id-field="id"
+													 data-page-list="[6, 10, 25]"
+													 data-show-footer="false"
+													 data-response-handler="responseIptvHandler">
+							</table>
+						</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							<span th:text="#{return}"></span>
+						</button>
+						<button type="button" class="btn  btn-default" id="resetBtn" onclick="resetStream()">
+							<span th:text="#{reset}"></span>
+						</button>
+						<button type="button" class="btn  btn-default" onclick="StreamManage()">
+							<span th:text="#{submit}"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- physical end -->
+	
+		<!-- images start -->
+		<div class="modal fade" id="imagesModal" role="dialog" tabindex="-1">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetPicValue()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">
+							<span th:text="#{add.picture}"></span>
+						</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<form name="myFromPt" id="myFromPt" enctype="multipart/form-data" method="post">
+						<input type="hidden" name="pid" id="pid" value="0" />
+						<input type="hidden" name="channelid" id="channelid" value="0"/>
+						<div class="form-group">						
+							<label for="pname" class="col-sm-2 control-label"><span style="color:red">*</span><span th:text="#{channel.picname}"></span>：</label>
+							<div class="col-sm-4">
+								<input type="text" name="pname" id="pname" class="form-control"/>
+							</div>									
+						</div>	
+						<div class="form-group">
+							<label for="addtype" class="col-sm-2 control-label"><span th:text="#{picture.source}"></span>：</label>
+							<div class="col-sm-4" style="width:65%">
+								<input type="radio" name="radio" value="1" onclick="setAddPictureTypeStyle(1);"/><span th:text="#{upload.image}"></span> &nbsp;&nbsp;&nbsp;
+								<input type="radio" name="radio" value="0" onclick="setAddPictureTypeStyle(0);"/><span th:text="#{manual.input}"></span>
+							</div>						
+						</div>
+						<div class="form-group" id="fileDiv">
+							<label for="flie" class="col-sm-2 control-label"><span style="color:red">*</span><span th:text="#{picture.file}"></span>：</label>
+							<div class="col-sm-4" style="width:65%">
+								<input name="fileurl" id="fileurl" readonly="readonly" class="in_wd4" style="z-index:9; position: relative;width: 250px;" type="text" />
+								<input value="" id="browse" class="ann05" style="z-index:-1;margin-left:1px;" type="button"/>
+								<input name="fileImg" id="fileImg" value="Browse" size="1" onchange="fileurl.value=this.value;checkPicFile(this)" style="height:22px; filter:alpha(opacity=0); opacity:0; margin:-23px; z-index:1; margin-left:251px !important; width:70px; line-height:18px;" type="file" />
+							</div>
+						</div>
+						<div class="form-group" id="picurlDiv">
+							<label for="pictureurl" class="col-sm-2 control-label" style="padding-right:0px;"><span style="color:red">*</span><span th:text="#{picture.path}"></span>：</label>
+							<div class="col-sm-4">
+	          					<input name="pictureurl" id="pictureurl" maxlength="250" class="in_wd4" style="z-index:9;width: 250px;" type="text" />
+							</div>
+						</div>			
+						<div class="form-group">
+							<label for="picType" class="col-sm-2 control-label"><span th:text="#{picture.type}"></span>：</label>
+							<div class="col-sm-4 status-select">
+								<select id="picType" class="in_wd4" name="picType">
+									<option value="0"><span th:text="#{picture.thumbnail}"></span></option>
+									<option value="1"><span th:text="#{picture.poster}"></span></option>
+									<option value="2"><span th:text="#{picture.adv}"></span></option>
+									<option value="3"><span th:text="#{picture.channel}"></span></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-2 control-label"><span th:text="#{channel.picdescribe}"></span>：</label>
+							<div class="col-sm-4">
+								<textarea name="description" id="description" cols="66" rows="5"></textarea>
+							</div>
+						</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							<span th:text="#{return}"></span>
+						</button>
+						<button type="button" class="btn  btn-default" id="resetBtn" onclick="resetPicValue()">
+							<span th:text="#{reset}"></span>
+						</button>
+						<button type="button" class="btn  btn-default" onclick="addPicture()">
+							<span th:text="#{submit}"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- images end -->
+  		
+  		<!-- js placed at the end of the document so the pages load faster -->
+	    <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
+	    <script src="js/jquery.scrollTo.min.js"></script>
+	    <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+	    <!--common script for all pages-->
+    	<script src="js/common-scripts.js"></script>
+    	<!--script for this page-->
+    	<!-- <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
+    	<script type="text/javascript" src="js/gritter-conf.js"></script> -->
+    </body>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    var i18n = {
+    	add_language:/*[[#{category.add.language}]]*/,
+    	server_error:/*[[#{server.error}]]*/,
+    	select_one:/*[[#{select.one}]]*/,
+    	at_least_select_one:/*[[#{at.least.select.one}]]*/,
+    	add_success:/*[[#{add.success}]]*/,
+    	add_fail:/*[[#{add.fail}]]*/,
+    	edit_success:/*[[#{edit.success}]]*/,
+    	edit_fail:/*[[#{edit.fail}]]*/,
+    	delete_success:/*[[#{delete.success}]]*/,
+    	delete_fail:/*[[#{delete.fail}]]*/,
+    	sequence_format:/*[[#{category.sequence.format}]]*/,
+    	confirm_delete:/*[[#{confirm.delete}]]*/,
+    	confirm_modify:/*[[#{channel.confirm.modify}]]*/,
+    	sequence_empty:/*[[#{channel.sequence.empty}]]*/,
+    	add_atype:/*[[#{add.agreement.type}]]*/,
+    	channel_live:/*[[#{channel.live}]]*/,
+    	channel_program:/*[[#{channel.program}]]*/,
+    	online:/*[[#{online}]]*/,
+    	offline:/*[[#{offline}]]*/,
+    	channel_name:/*[[#{channel.name}]]*/,
+    	ap_name:/*[[#{agreement.name}]]*/,
+        agreement:/*[[#{channel.agreement}]]*/,
+        stream_category: /*[[#{channel.stream.category}]]*/,
+        stream_type:/*[[#{channel.stream.type}]]*/,
+        not_add:/*[[#{not.add}]]*/,
+        not_edit:/*[[#{not.edit}]]*/,
+        picfile_empty:/*[[#{picfile.empty}]]*/,
+        picpath_empty:/*[[#{picpath.empty}]]*/,
+        picname_empty:/*[[#{picname.empty}]]*/,
+        thumbnail:/*[[#{picture.thumbnail}]]*/,
+        poster:/*[[#{picture.poster}]]*/,
+        adv_pic:/*[[#{picture.adv}]]*/,
+        channel_identify:/*[[#{picture.channel}]]*/,
+        picture_a_title:/*[[#{picture.a.title}]]*/,
+        browse:/*[[#{channel.browse}]]*/,
+    }
+    /*]]>*/
+	</script>
+    <script type="text/javascript">
+    $(function () {
+	    $("#index").removeClass("active");
+        $("#categoryManage").addClass("active");
+        $("#categorySub").css('display','block'); 
+        $("#category_li").addClass("active");
+        
+        $("#a_img").attr("title",i18n.picture_a_title);
+        	    
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+        
+        getLanguage();
+    }); 
+
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#channel').bootstrapTable({
+                url: '/getProgram',         
+                method: 'get',                      
+                toolbar: '#toolbar',                
+                striped: true,                      
+                cache: false,                       
+                pagination: true,                   
+                sortable: true,                     
+                queryParams: oTableInit.queryParams,
+                sidePagination: "server",           
+                pageNumber:1,                       
+                pageSize: 10,                       
+                pageList: [10, 25, 50, 100],        
+                showRefresh: true,                  
+                clickToSelect: true,                
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'channelid',
+                    title: 'id'
+                }, {
+                    field: 'sequence',
+                    title: '<span th:text='#{channel.sequence}'></span>',
+                    sortable: true,
+                    width: 228,
+                    formatter : function(value, row, index) {
+        				return '<div onclick="javascript:changeSequence(this,'+row.channelid+');">'+value+'</div><input id="sequence'+row.channelid+'" style="display:none;" type="text" value="'+value+'" />';				
+        			}
+                }, {
+                    field: 'name',
+                    title: '<span th:text='#{channel.name}'></span>',
+                    sortable: true
+                }, {
+                    field: 'callsign',
+                    title: '<span th:text='#{channel.callsign}'></span>'
+                }, {
+                    field: 'language',
+                    title: '<span th:text='#{channel.language}'></span>'
+                }, {
+                    field: 'status',                   
+                    title: '<span th:text='#{channel.status}'></span>',
+                    formatter : function(value, row, index) {
+        				if (value == 0) {
+        					return '<div onclick="changeStatus('+row.channelid+','+row.status+')"><span th:text="#{online}"></span></div>';				
+        				}else if(value == 1){
+        					return '<div onclick="changeStatus('+row.channelid+','+row.status+')"><span th:text="#{offline}"></span></div>';
+        				}
+        			}
+                }],
+                onLoadSuccess:function(row){
+                    $('#channel').bootstrapTable('hideColumn', 'channelid');
+                    if (row.rows != "") {
+	                    loadChannelBaseInfo(row.rows[0].channelid); //默认加载第一条baseinfo
+	                	$("#myFromPt input[name='channelid']").val(row.rows[0].channelid);
+	                	getPicTab(row.rows[0].channelid);
+	                	
+	                	$("#phycid").val(row.rows[0].channelid); //物理频道添加节目标注 
+	                	getStream(row.rows[0].channelid);
+                	}else {
+                		cleanChannelBaseInfo();
+                		cleanPhysical();
+                		cleanPtInfo();
+                	}
+                },
+                onClickRow: function (row) { 
+                	//单击时切换channel，但是有时候会打钩，要换双击吗？onDblClickRow
+                	loadChannelBaseInfo(row.channelid);
+                	$("#myFromPt input[name='channelid']").val(row.channelid);
+                	getPicTab(row.channelid);
+                	
+                	$("#phycid").val(row.channelid); //物理频道添加节目标注 
+                	getStream(row.channelid);
+                }
+            });
+        };
+
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+        	var sort = "sequence";
+        	if (typeof(params.sort) != "undefined") {  
+        	    sort = params.sort;
+        	} 
+            var temp = {
+                cid: GetUrlParam("id"),
+            	limit: params.limit,   
+                offset: params.offset,
+                keyword: $("#keyword").val(),
+                sort: sort,
+                order: params.order,
+                status: $("#channelStatus").val()
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+
+        return oInit;
+    };
+    
+    //查询当前分类下节目
+    function queryChannel(){
+    	$("#channel").bootstrapTable("refresh");
+    }
+    
+    //enter键查询当前分类下节目 
+    function searchChannel(){
+    	var event = window.event || arguments.callee.caller.arguments[0];
+   	    if (event.keyCode == 13){
+   	    	queryChannel();
+   	    }
+    }
+    
+    //清除关键字
+    function cleanQuery(){
+    	$("#keyword").val("");
+    	queryChannel();
+    }
+
+    function resetChannel(){
+    	$("#searchByKeyword").val("");
+    	$("#searchByType option:first").prop("selected", 'selected');
+ 	    $("#searchByLanguage option:first").prop("selected", 'selected');
+		$("#channelTable").bootstrapTable("refresh");
+    }
+    
+    //添加节目时弹出框
+    function addChannel(){
+    	resetChannel();
+    	var cid = GetUrlParam("id");
+		$("#cid").val(cid);
+   		$("#addChannelModal").modal("show");
+   		getChannelTable();
+    }
+    
+    //确定添加节目 
+    function channelManage(){
+    	var id = getChannelSelectionsInfo(); //channelid 
+    	var ids = id.join(',');
+    	if (ids == "") {
+    		alert(i18n.at_least_select_one);
+    		return;
+    	}
+		$.post("addProgramById",{
+			 cid : $("#cid").val(),
+			 ids : ids
+		}, function(data) {
+			if (data=="success") {
+				alert(i18n.add_success);
+			}else if(data=="fail"){
+				alert(i18n.add_fail);
+			}
+			$('#addChannelModal').modal('hide');	
+			$("#channel").bootstrapTable('refresh');
+			//window.location.reload();
+		});
+    }
+    
+    function getIdSelections() {
+		return $.map($("#channel").bootstrapTable('getSelections'), function(
+				row) {
+			return row.channelid;
+		});
+	}
+    
+    function delChannel(){
+		var cid = getIdSelections();
+		var cids = cid.join(',');
+		if (cids == "") {
+			alert(i18n.at_least_select_one);
+			return;
+		}
+    	if(confirm(i18n.confirm_delete)){
+    		$.post("/delProgram", {
+    			channelids : cids,  //channelids 
+    			cid : GetUrlParam("id")
+    		}, function(data) {
+	    		if (data=="success") {
+	    			alert(i18n.delete_success);
+	    		}else if(data=="fail"){
+	    			alert(i18n.delete_fail);
+	    		}
+    			$("#channel").bootstrapTable('refresh');		   
+    		});
+    	}
+    }
+    
+    //查找特定参数的值 
+    /*<![CDATA[*/
+	function GetUrlParam(paraName) {
+		var url = document.location.toString();
+	　　   var arrObj = url.split("?");
+	　　   if (arrObj.length > 1) {
+	　　   	var arrPara = arrObj[1].split("&");
+	　　　　	var arr;
+	　　　　	for (var i = 0; i < arrPara.length; i++) {
+	　　　　　　	arr = arrPara[i].split("=");
+	　　　　　　	if (arr != null && arr[0] == paraName) {
+	　　　　　　		if(arr[1].indexOf("#") > 0 ){
+	　　　　　　			return arr[1].split("#").join("");
+	　　　　　　		}else {
+	　　　　　　			return arr[1];
+	　　　　　　		}
+	　　　　　　	}
+	　　　　	}
+	　　　　	return "";
+	　　	}else {
+	　　　　	return "";
+	　　	}
+	} 
+    /*]]>*/
+    function getChannelTable(){
+	    $('#channelTable').bootstrapTable({
+			method:"POST", 
+	   	 	contentType : "application/x-www-form-urlencoded", 
+			url : '/getChannel',
+			dataType : 'json',
+		    dataField: "rows",
+		    pageNumber: 1,   
+		    pagination:true, 
+		    queryParams: queryParam,
+		    sidePagination:'server', 
+		    pageSize:6,
+			checkbox : true,
+			columns : [ {
+				field : 'state',
+				checkbox : true
+			}, {
+				field : 'name',
+				title : '<span th:text='#{channel.name}'></span>',
+				align : 'center',
+				valign : 'middle',
+			}, {
+				field : 'language',
+				title : '<span th:text='#{channel.language}'></span>',
+				align : 'center',
+				valign : 'middle',
+			},]
+		});
+    }
+	function queryParam(params){
+    	var param = {
+    		limit : params.limit,
+ 		    offset : params.offset,
+ 		    keyword : $("#searchByKeyword").val(),
+ 		    type : $("#searchByType").val(),
+ 		    language: $("#searchByLanguage").val(),
+ 		    status: -1,
+ 		    scid: 0
+    	};
+    	return param;
+    } 
+	
+    function responseHandler(res) {
+    	if (res.total!=0) {
+	    	return {
+	    	   "rows": res.rows,	    	
+	    	   "total": res.total
+	        }
+	    } else {
+	        return {
+	    	    "rows": [],
+	    	    "total": 0
+	        }
+	    }  
+	}
+    //根据频道名称查询 
+    function queryChannelList(){
+    	$("#channelTable").bootstrapTable("refresh");
+    }
+    
+    $("#searchByType").change(function(){	
+    	$("#channelTable").bootstrapTable('destroy');  
+    	getChannelTable();
+    });
+    
+    $("#searchByLanguage").change(function(){	
+    	$("#channelTable").bootstrapTable('destroy');  
+    	getChannelTable();
+    });
+    
+    //addModel下enter键事件
+    function entersearch(){
+   	    var event = window.event || arguments.callee.caller.arguments[0];
+   	    if (event.keyCode == 13){
+   	    	queryChannelList();
+   	    }
+   	} 
+    
+    function getChannelSelectionsInfo() {
+		return $.map($("#channelTable").bootstrapTable('getSelections'), function(
+				row) {
+			return row.id;
+		});
+	}
+    
+    function changeStatus(id, status) {
+    	if(confirm(i18n.confirm_modify)){
+    		if (0 == status) {
+    			status = 1;
+    		}else if (1 == status) {
+    			status = 0;
+    		}
+    		$.post("/onlineOrOffline", {
+    			ids : id,
+    			status : status
+    		}, function(data) {
+	    		if(data.message=="fail"){
+	    			alert(i18n.edit_fail);
+	    		}
+    			$("#channel").bootstrapTable('refresh');		   
+    		});
+    	}
+    }
+    
+    function changeSequence(obj, channelid) {
+    	obj.style.display="none";
+    	var original = obj.innerHTML;
+    	var id = "sequence"+channelid;
+    	document.getElementById(id).style.display="block";
+    	$("#"+id).focus();
+    	$("#"+id).blur(function(){
+    		var sequence = $("#"+id).val();
+    		if(sequence =="") {
+    			alert(i18n.sequence_empty);
+    		}else {
+    			var re=/^([1-9]\d*|[0]{1,1})$/;
+        		if (!re.test(sequence)) {
+        			alert(i18n.sequence_format);
+        		}else {
+        			if (original != sequence) {
+	        			$.post("/changeSequence", {
+	            			id : channelid,
+	            			sequence : sequence
+	            		}, function(data) {
+	        	    		if(data.message=="fail"){
+	        	    			alert(i18n.edit_fail);
+	        	    		}
+	            			$("#channel").bootstrapTable('refresh');		   
+	            		});
+        			}else {
+        				obj.style.display="block";
+        				document.getElementById(id).style.display="none";
+        			}
+        		}
+    		}
+    	});
+    }
+    
+    /*<![CDATA[*/
+    var ptime = 0, languagelist = "";
+    function getLanguage() {
+    	if (languagelist == "") {
+        	$.ajax({
+    			type: "post",
+                url: "getAllLanguage",
+                data: {},
+                dataType: "json",
+                success: function(data){
+    				if (data.data == "[]" && ptime >1) {
+     					alert(i18n.add_language);
+     				}
+     				for(var i=0; i<data.data.length; i++) {
+     					languagelist = languagelist+"<option value='"+data.data[i].name+"'>"+data.data[i].name+"</option>"; 					
+     				}
+     				$("#searchByLanguage").append(languagelist);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+               	  	alert(i18n.server_error);
+                }
+    		});
+    	}else {
+    		 $("#searchByLanguage option:not(:first)").remove();
+    		 //$("#language").html("");
+    		 $("#searchByLanguage").append(languagelist);
+    	}
+    	ptime = ptime +1;
+    }
+    
+    
+	function setSearch(status) {
+		if (-1 == status) {
+			$('#search_channelStatus_').attr('class', '_search lf_biao_t01search');
+			$('#search_channelStatus_0').attr('class', '_search');
+			$('#search_channelStatus_1').attr('class', '_search');
+			$('#channelStatus').val(-1);
+		}else if (0 == status) {
+			$('#search_channelStatus_0').attr('class', '_search lf_biao_t01search');
+			$('#search_channelStatus_').attr('class', '_search');
+			$('#search_channelStatus_1').attr('class', '_search');
+			$('#channelStatus').val(0);
+		}else if (1 == status) {
+			$('#search_channelStatus_1').attr('class', '_search lf_biao_t01search');
+			$('#search_channelStatus_').attr('class', '_search');
+			$('#search_channelStatus_0').attr('class', '_search');
+			$('#channelStatus').val(1);
+		}
+		$("#channel").bootstrapTable("refresh");
+	}
+	
+	//获取协议类型 ，便于根据协议查询iptv节目
+    var ptime = 0, agreementlist = "";
+    function getAgreement() {
+    	if (agreementlist == "") {
+        	$.ajax({
+    			type: "post",
+                url: "getAllAgreement",
+                data: {},
+                dataType: "json",
+                success: function(data){
+    				if (data.data == "[]" && ptime >1) {
+     					alert(i18n.add_atype);
+     				}
+     				for(var i=0; i<data.data.length; i++) {
+     					agreementlist = agreementlist+"<option value='"+data.data[i].name+"'>"+data.data[i].name+"</option>"; 					
+     				}
+     				$("#searchByAgreementType").append(agreementlist);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+               	  	alert(i18n.server_error);
+                }
+    		});
+    	}else {
+    		 $("#searchByAgreementType option:not(:first)").remove();
+    		 $("#searchByAgreementType").append(agreementlist);
+    	}
+    	ptime = ptime +1;
+    }
+	
+    //======获取基本信息 start===============
+	function loadChannelBaseInfo(id) {
+		$.ajax({
+			type: "post",
+            url: "getChannelById",
+            data: {id:id},
+            dataType: "json",
+            success: function(data){
+				if(data.message == "success"){
+		  			$("#channel_name").html(data.name);
+		  			if (data.type == 0) {
+		  				$("#channel_type").html(i18n.channel_live);
+		  			}else if(data.type == 1) {
+		  				$("#channel_type").html(i18n.channel_program);
+		  			}
+		  			$("#language_name").html(data.language);
+		  			if (data.status == 0) {
+			  			$("#channel_status").html(i18n.online);
+		  			}else if(data.status == 1) {
+		  				$("#channel_status").html(i18n.offline);
+		  			}
+		  			$("#channel_callsign").html(data.callsign);
+		  			$("#channel_createtime").html(data.createtime);
+		  			$("#channel_describe").html(data.description);
+				} 
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+           		alert(i18n.server_error);
+            }
+        }); 
+	}
+    
+	function cleanChannelBaseInfo(){
+		$("#channel_name").html("");
+		$("#channel_type").html("");
+		$("#language_name").html("");
+  		$("#channel_status").html("");
+		$("#channel_callsign").html("");
+		$("#channel_createtime").html("");
+		$("#channel_describe").html("");
+	}
+    //==============基本信息频道 end ===================
+		
+	//================ 对物理频道的操作 =================
+	//物理频道列表获取 
+	function getStream(channelid){
+		$("#phycid").val(channelid);
+		$("#streamKeyword").val("");
+		$("#stream").bootstrapTable('destroy');  
+	    $('#stream').bootstrapTable({
+			method:"POST", 
+	   	 	contentType : "application/x-www-form-urlencoded", 
+			url : '/getStream',
+			dataType : 'json',
+		    dataField: "rows",
+		    pageNumber: 1,   
+		    pagination:true, 
+		    queryParams: queryStreamParam,
+		    sidePagination:'server', 
+		    pageSize:3,
+			columns : [ {
+				field : 'state',
+				checkbox : true
+			}, {
+				field : 'streamname',
+				title : i18n.ap_name,
+				align : 'center',
+				valign : 'middle',
+				formatter : function(value, row, index) {
+					if (value != "") {
+						return '<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:60px;text-align:center;margin:0 auto;" title="'+value+'">'+value+'</div>';
+					}
+				}
+			}, {
+				field : 'type',
+				title : i18n.agreement,
+				align : 'center',
+				valign : 'middle'
+			},]
+		});
+    }
+	function queryStreamParam(params){
+    	var param = {
+    		limit : params.limit,
+ 		    offset : params.offset,
+ 		    keyword : $("#streamKeyword").val(),
+ 		    channelid : $("#phycid").val()
+    	};
+    	return param;
+    } 
+	
+    function responseStreamHandler(res) {
+    	if (res.total!=0) {
+	    	return {
+	    	   "rows": res.rows,	    	
+	    	   "total": res.total
+	        }
+	    } else {
+	        return {
+	    	    "rows": [],
+	    	    "total": 0
+	        }
+	    }  
+	}
+    
+    function getStreamIdSelections() {
+		return $.map($("#stream").bootstrapTable('getSelections'), function(
+				row) {
+			return row.id;
+		});
+	}
+	
+	function searchStream() {
+		$("#stream").bootstrapTable("refresh");
+	}
+	
+	//查询的enter键事件
+	function enterSearchStream(){
+	    var event = window.event || arguments.callee.caller.arguments[0];
+	    if (event.keyCode == 13){
+	    	searchStream();
+	    }
+	}
+	
+	function cleanStreamQuery() {
+		$("#streamKeyword").val("");
+		searchStream();
+	}
+	
+	function showPhysical(operate) {
+		if($("#phycid").val() == 0) {
+			alert(i18n.not_add);
+			return false;
+		}
+		getAgreement();
+		getStreamTable();
+		$("#physicalModal").modal('show');
+	}
+	
+	function delPhysical() {
+		var sid = getStreamIdSelections();
+		var sids = sid.join(',');
+		if (sids == "") {
+			alert(i18n.at_least_select_one);
+			return;
+		}
+    	if(confirm(i18n.confirm_delete)){
+    		$.post("/delStream", {
+    			sids : sids,
+    			channelid :  $("#phycid").val()
+    		}, function(data) {
+	    		if (data=="success") {
+	    			alert(i18n.delete_success);
+	    		}else if(data=="fail"){
+	    			alert(i18n.delete_fail);
+	    		}
+	    		$("#stream").bootstrapTable('refresh');		   
+    		});
+    	}
+	}
+	
+	//清除添加节目时工具栏的数据 
+	function resetStream(){
+		$("#searchIStream").val("");
+		$("#searchByAgreementType option:first").prop("selected", 'selected');
+		$("#searchByStreamType option:first").prop("selected", 'selected');
+		$("#streamTable").bootstrapTable("refresh");
+	}
+	
+	//获取iptv节目列表 
+	function getStreamTable(){
+	    $('#streamTable').bootstrapTable({
+			method:"POST", 
+	   	 	contentType : "application/x-www-form-urlencoded", 
+			url : '/getIStreamList',
+			dataType : 'json',
+		    dataField: "rows",
+		    pageNumber: 1,   
+		    pagination:true, 
+		    queryParams: queryIptvParam,
+		    sidePagination:'server', 
+		    pageSize:6,
+			columns : [ {
+				field : 'state',
+				checkbox : true
+			}, {
+				field : 'streamName',
+				title : i18n.ap_name,
+				align : 'center',
+				valign : 'middle'
+			}, {
+				field : 'categoryname',
+				title : i18n.stream_category,
+				align : 'center',
+				valign : 'middle'
+			}, {
+				field : 'streamType',
+				title : i18n.stream_type,
+				align : 'center',
+				valign : 'middle'
+			}, {
+				field : 'type',
+				title : i18n.agreement,
+				align : 'center',
+				valign : 'middle'
+			},]
+		});
+    }
+	function queryIptvParam(params){
+    	var param = {
+    		limit : params.limit,
+ 		    offset : params.offset/params.limit+1,
+ 		    keyword : $("#searchIStream").val(),
+ 		    type : $("#searchByAgreementType").val(),
+ 		    streamtype : $("#searchByStreamType").val()
+    	};
+    	return param;
+    } 
+	
+    function responseIptvHandler(res) {
+    	if (res.totalPages!=0) {
+	    	return {
+	    	   "rows": res.content,	    	
+	    	   "total": res.totalElements
+	        }
+	    } else {
+	        return {
+	    	    "rows": [],
+	    	    "total": 0
+	        }
+	    }  
+	}
+    
+    //根据iptv节目名称查询 
+    function queryIStream(){
+    	$("#streamTable").bootstrapTable("refresh");
+    }
+    //根据协议类型查询iptv数据 
+    $("#searchByAgreementType").change(function(){	
+    	$("#streamTable").bootstrapTable('destroy');  
+    	getStreamTable();
+    });
+    
+    //iptv数据查询的enter键事件 
+    function enterphysicalsearch(){
+   	    var event = window.event || arguments.callee.caller.arguments[0];
+   	    if (event.keyCode == 13){
+   			queryIStream();
+   	    }
+   	} 
+    
+    //选择iptv数据 
+    function getSelectionsInfo() {
+		return $.map($("#streamTable").bootstrapTable('getSelections'), function(
+				row) {
+			return "{\"sid\":\""+row.streamId+"\",\"sname\":\""+row.streamName+"\",\"sicon\":\""+row.streamIcon+"\",\"cid\":\""+row.categoryId+"\",\"type\":\""+row.type+"\"}";
+		});
+	}
+    
+    //确定添加节目 
+    function StreamManage(){
+    	var info = getSelectionsInfo();
+    	var infos = info.join(',');
+    	if (infos == "") {
+    		alert(i18n.at_least_select_one);
+    		return;
+    	}
+		$.post("streamManage",{
+			 channelid : $("#phycid").val(),
+			 info : "["+infos+"]"
+		}, function(data) {
+			if (data=="success") {
+				alert(i18n.add_success);
+			}else if(data=="fail"){
+				alert(i18n.add_fail);
+			}
+			$('#physicalModal').modal('hide');	
+			$("#stream").bootstrapTable('refresh');
+		}); 
+    }
+    
+    function cleanPhysical() {
+    	$("#stream").bootstrapTable('destroy'); 
+    	getStream(0);
+    }
+    
+    $("#searchByStreamType").change(function(){	
+    	$("#streamTable").bootstrapTable('destroy');  
+    	getStreamTable();
+    });
+    //========= 对物理频道操作 end ============
+    
+    //============ 对图片面板的操作 ====================
+    function addPt() {
+    	if($("#myFromPt input[name='channelid']").val() == 0) {
+    		alert(i18n.not_add);
+    		return false;
+    	}
+    	$("#imagesModal").modal('show');
+    	resetPicValue();
+    	$("input[type=radio][name=radio][value='1']").prop("checked", true);
+    	$("#fileDiv").css("display","block");
+		$("#picurlDiv").css("display","none");
+		$("#browse").val(i18n.browse);
+    }
+    
+    //获取选中的条数 
+    function getCheckLength() {
+    	var checklength = 0; 
+    	var namebox = $("#picTab tbody input[name^='imgbox']");
+    	for(var i=0; i<namebox.length; i++) {
+    		if(namebox[i].checked) {
+    			checklength += 1;
+    		}
+    	}
+    	return checklength;
+    }
+    
+    function editPt() {
+    	var checklength = getCheckLength();
+    	var addtype = -1;
+    	if(checklength != 1) {
+    		alert(i18n.select_one);
+    		return false;
+    	}
+    	var picid = 0;
+    	var namebox = $("#picTab tbody input[name^='imgbox']");
+    	for(var i=0; i<namebox.length; i++) {
+    		if(namebox[i].checked) {
+    			picid = namebox[i].value;
+    		}
+    	}
+    	$.ajax({
+			type: "post",
+            url: "getPtByPicid",
+            data: {picid:picid},
+            dataType: "json",
+            async: false,
+            success: function(data){
+				if (data.message == "success") {
+					if (data.addtype == 1) {
+						addtype = data.addtype;
+					}else {
+						$("#pid").val(data.id);
+						$("#pname").val(data.pname);
+						$("input[type=radio][name=radio][value='0']").prop("checked", true);
+				    	$("#fileDiv").css("display","none");
+						$("#picurlDiv").css("display","block");
+				    	$("#picType").val(data.ptype);
+				    	$("#myFromPt textarea[name='description']").val(data.description);
+				    	$("#pictureurl").val(data.picpath);
+					}
+				}
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+           		alert(i18n.server_error);
+            }
+        }); 
+    	if(addtype != 1) {
+        	$("#imagesModal").modal('show');
+    	}else {
+    		alert(i18n.not_edit);
+    	}
+    }
+    
+    function delPt() {
+    	var checklength = getCheckLength();
+    	if(checklength < 1) {
+    		alert(i18n.at_least_select_one);
+    		return false;
+    	}
+    	var ids = "";
+    	var namebox = $("#picTab tbody input[name^='imgbox']");
+    	for(var i=0; i<namebox.length; i++) {
+    		if(namebox[i].checked) {
+    			ids += namebox[i].value+",";
+    		}
+    	}
+    	ids = ids.substring(0,ids.length-1);
+    	if(confirm(i18n.confirm_delete)){
+	    	$.ajax({
+				type: "post",
+	            url: "delPtByIds",
+	            data: {ids:ids},
+	            dataType: "json",
+	            success: function(data){
+					alert(data.message);
+					if(data.message == "success") {
+						var channelid = $("#channelid").val();
+						getPicTab(channelid);
+					}
+	            },
+	            error: function(jqXHR, textStatus, errorThrown){
+	           		alert(i18n.server_error);
+	            }
+	        });
+    	}
+    }
+    
+    //切换图片类型
+    function setAddPictureTypeStyle(value) {
+ 		if(value == 1) {
+ 			$("#fileDiv").css("display","block");
+			$("#picurlDiv").css("display","none");
+			$("#browse").val(i18n.browse);
+ 		}else if(value == 0) {
+ 			$("#fileDiv").css("display","none");
+			$("#picurlDiv").css("display","block");
+ 		}	
+    }
+    
+    function resetPicValue() {
+    	$("#pid").val("0");
+    	$("#pname").val("");
+    	$("#picType option:first").prop("selected", 'selected');
+    	$("#myFromPt textarea[name='description']").val("");
+    	$("#fileurl").val("");
+    	$("#pictureurl").val("");
+    }
+    
+    //增加和编辑图片信息 
+    function addPicture() {
+    	var addtype = $("input[name='radio']:checked").val();
+    	if(addtype == 1) {
+    		if($("#fileurl").val() == "") {
+        		alert(i18n.picfile_empty);
+        		return false;
+    		}
+    	}else if(addtype == 0) {
+    		if($("#pictureurl").val() == "") {
+    			alert(i18n.picpath_empty)
+    			return false;
+    		}
+    	}
+    	if($("#pname").val() == "") {
+    		alert(i18n.picname_empty)
+    		return false;
+    	}
+    	var form = $('#myFromPt')[0];
+    	var data = new FormData(form);
+   	    $.ajax({
+   	        type: "POST",
+   	        enctype: 'multipart/form-data',
+   	        url: "/addpicture",
+   	        data: data,
+   	        processData: false, //防止jQuery自动将数据转换成查询字符串
+   	        contentType: false,
+   	        cache: false,
+   	        timeout: 600000,
+   	        success: function (data) {
+				alert(data);
+				if (data == "success") {
+					$("#imagesModal").modal('hide');
+					var channelid = $("#channelid").val();
+					getPicTab(channelid);
+				}
+   	        },
+   	        error: function (e) {
+   	        	alert(i18n.server_error);
+   	        }
+   	    });	
+    }
+    
+    
+    function getPicTab(channelid) {
+    	//重新获取列表时清除预览详细数据
+    	$("#pt_name").html("");
+		$("#pt_describe").html("");
+		$("#pt_img").attr('src', "");
+		
+    	var trHtml = "", ptype = "";
+    	$("#picTab tbody").html("");
+    	$.ajax({
+			type: "post",
+            url: "getPtByChannelid",
+            data: {channelid:channelid},
+            dataType: "json",
+            success: function(data){
+				if (data.message == "success" && typeof(data.list) != "undefined") {
+					for(var i in data.list) {
+						if(data.list[i].ptype == 0) {
+							ptype = i18n.thumbnail;
+						}else if(data.list[i].ptype == 1) {
+							ptype = i18n.poster;
+						}else if(data.list[i].ptype == 2) {
+							ptype = i18n.adv_pic;
+						}else if(data.list[i].ptype == 3) {
+							ptype = i18n.channel_identify;
+						}
+						trHtml += '<tr><td><input name="imgbox" onclick="checkOne(this, \''+data.list[i].id+'\');" value="'+data.list[i].id+'" type="checkbox"/></td><td>'+data.list[i].pname+'</td><td>'+ptype+'</td></tr>';						
+					}
+					$("#picTab tbody").append(trHtml);				
+				}
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+           		alert(i18n.server_error);
+            }
+        }); 
+    	$("#allCheck").prop("checked",false); //设置全选按钮不选中，以便于清除所有选项
+		allcheck();
+    }
+
+    //全选或全不选
+    function allcheck() {
+        var nn = $("#allCheck").is(":checked"); 
+        if(nn == true) {
+            var namebox = $("input[name^='imgbox']");
+            for(i = 0; i < namebox.length; i++) {
+                namebox[i].checked=true; 
+            }
+        }
+        if(nn == false) {
+            var namebox = $("input[name^='imgbox']");
+            for(i = 0; i < namebox.length; i++) {
+                namebox[i].checked=false;
+            }
+        }
+    }
+    
+    function checkOne(obj, picid){
+    	var trtotal = $("#picTab tbody tr").length; //总行数
+    	var checklength = getCheckLength();
+    	if (trtotal == checklength) {
+    		$("#allCheck").prop("checked",true);  //单选多个后如果全部选中，设置选中全选按钮 
+    	}else {
+    		$("#allCheck").prop("checked",false);
+    	}
+    	if(checklength == 1 && obj.checked) {
+    		loadPtBaseInfo(picid);
+    	}   	
+    }
+    
+    function loadPtBaseInfo(picid) {   	
+    	$.ajax({
+			type: "post",
+            url: "getPtInfoById",
+            data: {pid:picid},
+            dataType: "json",
+            success: function(data){
+				if (data.message == "success") {
+					$("#pt_name").html(data.picname);
+					$("#pt_describe").html(data.description);
+					$("#pt_img").attr('src', data.picpath);
+					$("#a_img").attr("title", data.picname);
+				}
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+           		alert(i18n.server_error);
+            }
+        });	
+    }
+    
+    //点击查看图片原图，直接获取图片src当img的src为空时会获取到当前网页地址 
+    function openImg(obj) {
+    	var picpath = "";
+    	obj.innerHTML.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/gi, function (match, capture) {
+    		picpath = capture;
+	    });
+    	if (picpath != "") {
+    		obj.setAttribute("href", picpath);
+    		obj.setAttribute("target","_blank");  
+    	}
+    }
+     
+    function cleanPtInfo() {
+    	$("#pt_name").html("");
+		$("#pt_describe").html("");
+		$("#pt_img").attr('src', "");
+		$("#myFromPt input[name='channelid']").val("0");
+		$("#picTab tbody").html("");
+    }
+    //============= 对图片面板的操作 end =====================
+
+    /*]]>*/
+    
+    </script>
+</html>

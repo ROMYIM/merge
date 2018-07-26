@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.StreamMapper" >
+	<resultMap id="baseMap" type="com.merge.domain.StreamBean">
+		<id column="id" jdbcType="BIGINT" property="id" />
+    	<result column="name" jdbcType="VARCHAR" property="agreement" />
+	</resultMap>
+	
+	<select id="getStreamList" resultMap="baseMap">
+		select s.*,a.name from `stream` s left join `agreement` a on s.type=a.id where s.channelid=#{cid} 
+		<if test="query!=''">
+		and s.streamname like '%${query}%'
+		</if>
+		limit #{startNum},#{pageNum}
+	</select>
+	
+	<select id="getCountStream" resultType="int">
+		select count(*) from stream where channelid=#{channelid} 
+		<if test="keyword!=''">
+		and streamname like '%${keyword}%'
+		</if>
+	</select>
+	
+	<insert id="addStream" useGeneratedKeys="true" parameterType="java.util.List"> 
+		<selectKey resultType="long" keyProperty="id" order="AFTER"> 
+			select last_insert_id()
+		</selectKey> 
+		insert into stream(streamid, streamname, streamicon, categoryid, type, channelid) 
+		values 
+		<foreach collection="list" item="data" separator="," index = "index"> 
+			(#{data.streamid}, #{data.streamname}, #{data.streamicon}, #{data.categoryid}, #{data.type}, #{data.channelid})
+		</foreach> 
+	</insert> 
+	
+	<delete id="delStream" parameterType="String">
+		delete from stream where id in (${sids})
+	</delete>
+	
+	<select id="getStream" resultType="Integer">
+		select 1 from `stream` where 
+		streamid=#{streamid} and categoryid=#{categoryid} and type=#{type} and channelid=#{channelid} 
+		limit 1;
+	</select>
+	
+	<delete id="delStreamByChannelids" parameterType="String">
+		delete from `stream` where channelid in (${ids})
+	</delete>
+	
+	<delete id="deleteStreamRelation" parameterType="String">
+		delete from `stream` where 1=1
+		and streamid=#{streamid} and categoryid=#{categoryid} and type=#{type}
+	</delete>
+</mapper>

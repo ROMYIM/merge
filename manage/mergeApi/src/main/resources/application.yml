@@ -1,0 +1,14 @@
+server:  
+  port: 8082  
+spring: 
+  application:   
+    name: play  
+  data: 
+    mongodb: 
+      uri: mongodb://${mongodb.username}:${mongodb.password}@${mongodb.host}:${mongodb.port}/merge
+      maxWaitMillis: 100
+  thymeleaf : 
+    cache : false 
+#mybatis: 
+  #config-location: classpath:mybatis/mybatis-config.xml
+  #mapper-locations: classpath:mybatis/mapper/*.xml 

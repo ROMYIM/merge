@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="merge.channel.dao.ChannelDao">
+	<sql id="Base_Column_List">
+		id, name, callsign, language, status, description, createtime,
+		type, sequence
+	</sql>
+	<select id="getChannelByCid" parameterType="java.util.HashMap"
+		resultType="merge.channel.domain.ChannelBean">
+		select
+		c.id, c.name, c.callsign, c.language, c.status, c.description, c.createtime,
+		c.type, c.sequence
+		from channel c join category_channel cc on c.id=cc.channelid where cc.categoryid=#{cid} 
+		<if test="start>0"> limit #{start},#{total}</if>
+	</select>
+	<select id="getImageByChannelId" parameterType="int"
+		resultType="merge.channel.domain.ImageBean">
+		select * from images where channelid=#{channelID}
+	</select>
+	<select id="getPlayUrlList" parameterType="int"
+		resultType="merge.channel.domain.StreamBean">
+		select * from stream where channelid=#{channelID}
+	</select>
+	
+	<select id="getStreamByStreamId" parameterType="int"
+		resultType="merge.channel.domain.StreamBean">
+		select * from stream where id=#{streamid}
+	</select>
+</mapper>

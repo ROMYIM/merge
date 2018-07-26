@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.merge.dao.CategoryMapper" >
+	<insert id="addCategory" parameterType="com.merge.domain.CategoryBean">
+		insert into category (name, type, status, language, description, parentid, sequence, playlevel)
+		values (#{name}, #{type}, #{status}, #{language}, #{description}, #{parentid}, #{sequence}, #{playlevel})
+	</insert>
+
+	<update id="editCategory" parameterType="com.merge.domain.CategoryBean">
+		update `category` set name = #{name}, type=#{type}, status=#{status}, 
+		language=#{language}, description=#{description}, sequence=#{sequence}, playlevel=#{playlevel}
+		where id = #{id}
+	</update>
+	
+	<select id="getCategoryById" resultType="com.merge.domain.CategoryBean">
+		select * from `category` where id=#{categoryid}
+	</select>
+	
+	<select id="judgeByName" resultType="com.merge.domain.CategoryBean">
+		select id from `category` where name=#{name} limit 1
+	</select>
+	
+	<select id="getCList" resultType="com.merge.domain.CategoryBean">
+		select * from `category` order by parentid, sequence asc
+	</select>
+	
+	<select id="getCategorysByParentId" parameterType="String" resultType="String">
+	   select id from `category` where parentid in (${parentid})
+	</select>
+	
+	<select id="delCategoryAndChildren" parameterType="String">
+	   delete from `category` where id in (${ids})
+	</select>
+	
+	<select id="getCnameById" resultType="String">
+		select name from `category` where id=#{cid}
+	</select>
+	
+	<update id="updateSnum" parameterType="int">
+		update `category` set snum = snum + #{snum}
+		where id = #{cid}
+	</update>
+	
+	<select id="getParentIdByCid" parameterType="String" resultType="String">
+		select parentid from `category` where id in (${cid})
+	</select>
+	
+	<select id="getTopCategory" resultType="com.merge.domain.CategoryBean">
+		select id, name from `category` where parentid=0
+	</select>
+	
+	<select id="getTypeById" resultType="int">
+		select type from `category` where id=#{id}
+	</select>
+</mapper>
