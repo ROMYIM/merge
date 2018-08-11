@@ -27,4 +27,10 @@ public interface AgreementAccountMapper {
 
     int getCountAccountStatus(@Param("status")int status, @Param("type")String type);
 
+    List<AgreementAccountBean> selectAllAccountByStatus();
+
+    List<String> selectAgreementTypeFromAccount();
+
+    List<AgreementAccountBean> selectAccountsByType(@Param("type")String type);
+
 }

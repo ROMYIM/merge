@@ -84,8 +84,7 @@ public class StreamController {
                 s.setType(json.getString("type"));
                 s.setCategoryid(json.getString("cid"));
                 s.setChannelid(channelid);
-                Integer isExist = streamService.getStream(s);
-                if(isExist == null){
+                if(!streamService.isStreamRelationExist(s)){
                     list.add(s);
                 }
             }

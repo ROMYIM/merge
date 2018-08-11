@@ -1,6 +1,7 @@
 spring:  
   cloud:  
     config:
+      # uri: http://69.197.169.122:8001/
       discovery: 
         enabled: true
         service-id: config

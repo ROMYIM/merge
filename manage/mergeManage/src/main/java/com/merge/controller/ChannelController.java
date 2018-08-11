@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.merge.config.FtpFileUtil;
+import com.merge.util.FtpFileUtil;
 import com.merge.config.Page;
 import com.merge.domain.CategoryAndChannelBean;
 import com.merge.domain.ChannelBean;

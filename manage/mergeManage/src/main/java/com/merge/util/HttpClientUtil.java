@@ -1,6 +1,8 @@
-package com.merge.config;
+package com.merge.util;
 
 import java.io.IOException;
+
+import com.merge.config.SSLClient;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -40,7 +42,7 @@ public class HttpClientUtil {
             se.setContentType("text/json");
             se.setContentEncoding(new BasicHeader("Content-Type", "application/json"));
             httpPost.setEntity(se);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setConnectionRequestTimeout(1000).setSocketTimeout(5000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(60000).setConnectionRequestTimeout(60000).setSocketTimeout(60000).build();
             httpPost.setConfig(requestConfig);
             HttpResponse response = httpClient.execute(httpPost);
             if(response != null){
@@ -76,7 +78,7 @@ public class HttpClientUtil {
                 httpGet.setHeader("Authorization", Authorization);
                 httpGet.addHeader("Accept", "application/json");
                 httpGet.addHeader("Content-Type", "application/json");
-            }else {
+            } else {
                 httpGet.addHeader("Content-Type", "application/json");
             } 
             RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setConnectionRequestTimeout(1000).setSocketTimeout(5000).build();
@@ -107,7 +109,7 @@ public class HttpClientUtil {
         CloseableHttpResponse response = null;
         String result = null;
         try {     
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(60000).setConnectionRequestTimeout(30000).setSocketTimeout(60000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(600000).setConnectionRequestTimeout(600000).setSocketTimeout(600000).build();
             httpget.setConfig(requestConfig);
             response = httpclient.execute(httpget);    //3.执行get请求并返回结果      
             HttpEntity entity = response.getEntity();  //4.处理结果，这里将结果返回为字符串

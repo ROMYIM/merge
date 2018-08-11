@@ -52,7 +52,7 @@ public class AgreementSearchController {
             List<Order> orders = new ArrayList<Order>();
             if (order.equals("asc")) {
                 orders.add(new Order(Direction.ASC, sorts));
-            }else if (order.equals("desc")) {
+            } else if (order.equals("desc")) {
                 orders.add(new Order(Direction.DESC, sorts));
             }
             Sort sort = new Sort(orders);

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.merge.config.FtpFileUtil;
+import com.merge.util.FtpFileUtil;
 import com.merge.domain.ImagesBean;
 import com.merge.service.ImagesService;
 

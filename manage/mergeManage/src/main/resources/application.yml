@@ -6,7 +6,7 @@ spring:
   application:   
     name: merge_manage 
   datasource: 
-      url: jdbc:mysql://${mysql.host}:${mysql.port}/merge?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=true&SSL=true
+      url: jdbc:mysql://${mysql.host}:${mysql.port}/merge?characterEncoding=utf-8&characterSetResults=utf-8&useUnicode=true&useSSL=false
       username: ${mysql.username}
       password: ${mysql.password}
       driverClassName: com.mysql.jdbc.Driver     
@@ -14,8 +14,9 @@ spring:
     cache : false 
   data: 
     mongodb: 
-      uri: mongodb://${mongodb.username}:${mongodb.password}@${mongodb.host}:${mongodb.port}/merge
-      maxWaitMillis: 1000
+      uri: mongodb://root:123456@127.0.0.1:27017/merge
+      connectTimeout: 300000
+      maxWaitMillis: 300000
   #mvc:
     #static-path-pattern: classpath:/static/**
 

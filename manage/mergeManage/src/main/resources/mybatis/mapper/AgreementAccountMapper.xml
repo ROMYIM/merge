@@ -22,6 +22,10 @@
 	<select id="getAccountLimitList" resultType="com.merge.domain.AgreementAccountBean">
 		select * from `agreement_account` where `status`=0 || `status`=-1 order by type limit #{offset},#{limit}
 	</select>
+
+	<select id="selectAllAccountByStatus" resultType="com.merge.domain.AgreementAccountBean">
+		select id, code, mac, sn, type from `agreement_account` where `status`=0 || `status`=-1 order by type 
+	</select>
 	
 	<update id="setStatusAndError" parameterType="com.merge.domain.AgreementAccountBean">
 		update `agreement_account` set status=#{status}, errorstr=#{errorstr}
@@ -51,5 +55,13 @@
 		<if test="type!=''">
 			and type = #{type}
 		</if>
+	</select>
+
+	<select id="selectAgreementTypeFromAccount" resultType="String">
+		select `type` from `agreement_account` group by `type` order by `type` 
+	</select>
+
+	<select id="selectAccountsByType" resultType="com.merge.domain.AgreementAccountBean">
+		select id, code, mac, sn, type from agreement_account where type = #{type} and (status = 0 || status = -1)
 	</select>
 </mapper>

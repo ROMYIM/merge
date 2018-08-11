@@ -1,9 +1,10 @@
-package com.merge.config;
+package com.merge.util;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
 import com.alibaba.fastjson.JSONObject;
+import com.merge.config.FtpConfig;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1061,7 +1061,7 @@
                 data: {},
                 dataType: "json",
                 success: function(data){
-    				if (data.data == "[]" && ptime >1) {
+    				if (data.data == "[]" && ptime > 1) {
      					alert(i18n.add_atype);
      				}
      				for(var i=0; i<data.data.length; i++) {
@@ -1073,9 +1073,9 @@
                	  	alert(i18n.server_error);
                 }
     		});
-    	}else {
-    		 $("#searchByType option:not(:first)").remove();
-    		 $("#searchByType").append(agreementlist);
+    	} else {
+    		$("#searchByType option:not(:first)").remove();
+    		$("#searchByType").append(agreementlist);
     	}
     	ptime = ptime +1;
     }

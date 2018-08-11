@@ -14,7 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 /**
  * 用于进行Https请求的HttpClient 
  * @ClassName: SSLClient 
- * @Description: TODO
+ * @Description: 用于进行Https请求的HttpClient 
  * @author Devin <xxx> 
  * @date 2017年2月7日 下午1:42:07 
  *  
@@ -25,18 +25,18 @@ public class SSLClient extends DefaultHttpClient {
         super();
         SSLContext ctx = SSLContext.getInstance("TLS");
         X509TrustManager tm = new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] chain,
-                        String authType) throws CertificateException {
-                }
-                @Override
-                public void checkServerTrusted(X509Certificate[] chain,
-                        String authType) throws CertificateException {
-                }
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            }
+                
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            }
+                
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
         };
         ctx.init(null, new TrustManager[]{tm}, null);
         SSLSocketFactory ssf = new SSLSocketFactory(ctx,SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);

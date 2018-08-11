@@ -5,9 +5,17 @@
 		<id column="id" jdbcType="BIGINT" property="id" />
     	<result column="name" jdbcType="VARCHAR" property="agreement" />
 	</resultMap>
+
+	<resultMap id="streamMap" type="com.merge.domain.StreamBean">
+		<id column="id" property="id"/>
+		<result column="streamid" property="streamid"/>
+		<result column="streamname" property="streamname"/>
+		<result column="categoryid" property="categoryid"/>
+		<result column="type" property="type"/>
+	</resultMap>
 	
 	<select id="getStreamList" resultMap="baseMap">
-		select s.*,a.name from `stream` s left join `agreement` a on s.type=a.id where s.channelid=#{cid} 
+		select s.*,a.name from `stream` s left join `agreement` a on s.type=a.id where s.channelid=#{cid} and s.status = 1
 		<if test="query!=''">
 		and s.streamname like '%${query}%'
 		</if>
@@ -15,7 +23,7 @@
 	</select>
 	
 	<select id="getCountStream" resultType="int">
-		select count(*) from stream where channelid=#{channelid} 
+		select count(*) from stream where channelid=#{channelid} and status = 1
 		<if test="keyword!=''">
 		and streamname like '%${keyword}%'
 		</if>
@@ -36,8 +44,8 @@
 		delete from stream where id in (${sids})
 	</delete>
 	
-	<select id="getStream" resultType="Integer">
-		select 1 from `stream` where 
+	<select id="getStream" resultType="com.merge.domain.StreamBean">
+		select * from `stream` where 
 		streamid=#{streamid} and categoryid=#{categoryid} and type=#{type} and channelid=#{channelid} 
 		limit 1;
 	</select>
@@ -50,4 +58,20 @@
 		delete from `stream` where 1=1
 		and streamid=#{streamid} and categoryid=#{categoryid} and type=#{type}
 	</delete>
+
+	<select id="selectCountFromStream" resultType="int">
+		select count(id) from stream where streamid = #{streamid} and categoryId = #{categoryid} and type = #{type}
+	</select>
+
+	<select id="selectStreamGroupByIdTypeCategory" resultType="com.merge.domain.StreamBean">
+		select streamid, categoryid, type from stream group by streamid, categoryid, type
+	</select>
+
+	<update id="updateStreamRelation" parameterType="com.merge.domain.StreamBean">
+		update stream set status = #{status} where streamid = #{streamid} and categoryid = #{categoryid} and type = #{type}
+	</update>
+
+	<update id="updateRelationStatus" parameterType="int">
+		update stream set status = #{status} where id = #{id}
+	</update>
 </mapper>

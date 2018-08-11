@@ -10,7 +10,7 @@ public class PlayUrlBean implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
-    private String streamid; //stream中存储节目的id，不是节目id
+    private StreamId streamid; //stream中存储节目的id，不是节目id
     private String playurl;
     private String userAgent;  //ms播放使用user-agent
     private int flag;  //用于标志该播放链接是否已被请求使用,0：未使用，1：已使用，默认0
@@ -19,11 +19,32 @@ public class PlayUrlBean implements Serializable{
     private String type;
     private String userid;   //用于绑定用户的时候设置
     private String mac; //platinum协议中需要
+    private long createTimestamp;
+
+    public PlayUrlBean() {
+        createTimestamp = System.currentTimeMillis();
+    }
+
+    public PlayUrlBean(StreamId streamId, AgreementAccountBean accountBean, String playUrl, int flag) {
+        setCode(accountBean.getCode());
+        setCreateTimestamp(System.currentTimeMillis());
+        setFlag(flag);
+        setMac(accountBean.getMac());
+        setPlayurl(playUrl);
+        setSn(accountBean.getSn());
+        setStreamid(streamId);
+        setType(accountBean.getType());
+    }
+
+    public PlayUrlBean(StreamId streamId, AgreementAccountBean accountBean, String playUrl, int flag, String userAgent) {
+        this(streamId, accountBean, playUrl, flag);
+        this.userAgent = userAgent;
+    }
     
-    public String getStreamid() {
+    public StreamId getStreamid() {
         return streamid;
     }
-    public void setStreamid(String streamid) {
+    public void setStreamid(StreamId streamid) {
         this.streamid = streamid;
     }
     public String getPlayurl() {
@@ -73,6 +94,20 @@ public class PlayUrlBean implements Serializable{
     }
     public void setMac(String mac) {
         this.mac = mac;
+    }
+
+    /**
+     * @param createTimestamp the createTimestamp to set
+     */
+    public void setCreateTimestamp(long createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    /**
+     * @return the createTimestamp
+     */
+    public long getCreateTimestamp() {
+        return createTimestamp;
     }
        
 }

@@ -46,11 +46,11 @@
       			<div class="panel-body">
 	      			<form class="form-inline">
 	      				<div class="form-group">
-		      				<input class="form-control" type="text" name="hour" id="hour" style="width: 10%;margin-right:3px;"/><span th:text="#{agreement.test.hour}"></span>
-		      				<input class="form-control" type="text" name="minute" id="minute" style="width: 10%;margin-right:3px;"/><span th:text="#{agreement.test.minute}"></span>
-		      				<input class="form-control" type="text" name="second" id="second" style="width: 10%;margin-right:3px;"/><span th:text="#{agreement.test.second}"></span>
+		      				<input class="form-control" th:value="${taskHour}" type="text" name="hour" id="hour" style="width: 10%;margin-right:3px;"/><span th:text="#{agreement.test.hour}"></span>
+		      				<input class="form-control" th:value="${taskMinute}" type="text" name="minute" id="minute" style="width: 10%;margin-right:3px;"/><span th:text="#{agreement.test.minute}"></span>
+		      				<input class="form-control" th:value="${taskSecond}" type="text" name="second" id="second" style="width: 10%;margin-right:3px;"/><span th:text="#{agreement.test.second}"></span>
 		      				<span style="margin-left:10px;" th:text="#{agreement.test.interval}"></span>：
-		      				<input class="form-control" type="text" name="interval" id="interval" style="width: 10%;margin-right:3px;"/>
+		      				<input class="form-control" th:value="${taskInterval}" type="text" name="interval" id="interval" style="width: 10%;margin-right:3px;"/>
 		      				<button id="btn_clean" type="button" class="btn btn-default" onclick="setTime()">
 								<span class="glyphicon glyphicon-dashboard" aria-hidden="true" th:text="#{agreement.test.timing}"></span>
 							</button>

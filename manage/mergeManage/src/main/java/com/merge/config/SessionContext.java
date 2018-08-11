@@ -45,11 +45,11 @@ public class SessionContext {
         return (HttpSession) sessionMap.get(session_id);  
     }  
   
-    public HashMap getSessionMap() {  
+    public HashMap<String, HttpSession> getSessionMap() {  
         return sessionMap;  
     }  
   
-    public void setMymap(HashMap sessionMap) {  
+    public void setMymap(HashMap<String, HttpSession> sessionMap) {  
         this.sessionMap = sessionMap;  
     }  
   

@@ -4,20 +4,26 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
-import com.merge.config.DynamicScheduleTask;
 import com.merge.config.Page;
 import com.merge.domain.AgreementAccountBean;
 import com.merge.service.AgreementAccountService;
+import com.merge.service.ScheduleTaskService;
 
 @Controller
 public class AgreementTestController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgreementTestController.class);
     
     @Resource
     private MongoTemplate mongoTemplate;
@@ -25,12 +31,14 @@ public class AgreementTestController {
     @Resource
     private AgreementAccountService aAccountService;
     
-    @Resource
-    DynamicScheduleTask task;
+    @Autowired
+    ScheduleTaskService task;
     
     @RequestMapping("agreementtest")
-    public String agreementTest() {
-        return "agreement/agreementtest";
+    public ModelAndView agreementTest(ModelAndView modelAndView) {
+        modelAndView.setViewName("agreement/agreementtest");
+        modelAndView.addAllObjects(task.getIntervalScheduleTimeMap());
+        return modelAndView;
     }
     
     /**
@@ -76,8 +84,7 @@ public class AgreementTestController {
         //第一次任务时间需从页面获取，重新访问界面，提示定时器已执行，若确认修改，则动态修改定时时间
         System.out.println(hour+":"+minute+":"+second+"----"+interval);
         String cron = second+" "+minute+" "+hour+" * * ?";
-        task.setInterval(interval);
-        task.setCron(cron);
+        task.resetIntervalTask(hour, minute, second, interval);
         return "success";
     }
     
@@ -92,7 +99,7 @@ public class AgreementTestController {
     @ResponseBody
     public boolean getScheduleStatus() {
         boolean status = false;
-        if (task.getCronStatus()) {
+        if (task.getIntervalTaskStatus()) {
             status = true;
         }
         return status;

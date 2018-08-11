@@ -46,7 +46,7 @@ public class SecCodeController {
 	private String drawImg(ByteArrayOutputStream output){
 		String code = "";
 		
-		for(int i=0; i<6; i++){
+		for(int i = 0; i < 6; i++){
 			code += randomChar();
 		}
 		int width = 120;

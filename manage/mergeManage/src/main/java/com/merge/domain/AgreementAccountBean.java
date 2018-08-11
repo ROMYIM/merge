@@ -2,6 +2,8 @@ package com.merge.domain;
 
 import java.io.Serializable;
 
+import org.springframework.data.mongodb.core.query.Criteria;
+
 public class AgreementAccountBean implements Serializable {
 
     private static final long serialVersionUID = 1L;

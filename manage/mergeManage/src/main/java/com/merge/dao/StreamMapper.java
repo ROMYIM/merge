@@ -19,10 +19,18 @@ public interface StreamMapper {
 
     void delStream(@Param("sids")String sids);
 
-    Integer getStream(StreamBean stream);
+    StreamBean getStream(StreamBean stream);
 
     void delStreamByChannelids(@Param("ids")String ids);
 
-    void deleteStreamRelation(@Param("streamid")String streamid, @Param("categoryid")String categoryid, @Param("type")String type);
+    int deleteStreamRelation(@Param("streamid")String streamid, @Param("categoryid")String categoryid, @Param("type")String type);
+
+    int selectCountFromStream(StreamBean streamBean);
+
+    List<StreamBean> selectStreamGroupByIdTypeCategory();
+
+    int updateStreamRelation(StreamBean streamBean);
+
+    int updateRelationStatus(@Param("status")int status, @Param("id")int id);
 
 }
