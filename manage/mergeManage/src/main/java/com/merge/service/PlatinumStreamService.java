@@ -1,11 +1,15 @@
 package com.merge.service;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.merge.domain.AgreementAccountBean;
+import com.merge.domain.MongoData;
+import com.merge.domain.PlayUrlBean;
 import com.merge.domain.Stream;
 import com.merge.util.HttpClientUtil;
 
@@ -43,20 +47,21 @@ public class PlatinumStreamService extends UpdateStreamInfoService {
             resultString = HttpClientUtil.sendHttpGet("http://majood.net/iptv/API-V4.php?mode=movies_cat&code=" + accountBean.getCode() + "&mac=" + accountBean.getMac() + "&sn=" + accountBean.getSn() + "&raw=yes");
             JSONArray movieJson = JSONObject.parseArray(resultString);
             if (movieJson.size() > 0) {
+                StringBuilder subIdBuilder = new StringBuilder();
+                StringBuilder subNameBuilder = new StringBuilder();
                 for (int i = 0; i < movieJson.size(); i++) {
                     JSONObject cat = movieJson.getJSONObject(i);
                     JSONArray subcatArr = cat.getJSONArray("sub_cats");
                     if (subcatArr.size() > 0) {
                         for (int j = 0; j < subcatArr.size(); j++) {
                             JSONObject subcat = subcatArr.getJSONObject(j);
-                            String url = "http://majood.net/iptv/API-V4.php?mode=movies_list&code=" + accountBean.getCode() + "&mac=" + accountBean.getMac() + "&sn=" + accountBean.getSn() + "&catid=" + subcat.getString("sub_id") + "&raw=yes";
-                            resultString = HttpClientUtil.sendHttpGet(url);
-                            if (resultString != null) {
-                                updateMovieChannel(resultString, subcat.getString("sub_name"), userAgent, accountBean, subcat.getString("sub_id"));
-                            }  
+                            subIdBuilder.append(subcat.getString("sub_id")).append('/'); 
+                            subNameBuilder.append(subcat.getString("sub_name")).append('/');  
                         }
                     }
                 }
+                resourceMap.put("sub-id", subIdBuilder.toString());
+                resourceMap.put("sub-name", subNameBuilder.toString());
             }
             accountBean.setStatus(0);
             return resourceMap;
@@ -70,7 +75,9 @@ public class PlatinumStreamService extends UpdateStreamInfoService {
 	}
 
 	@Override
-	void updateChannel(Map<String, String> resourceJsonMap, AgreementAccountBean accountBean) throws Exception {
+	MongoData updateChannel(Map<String, String> resourceJsonMap, AgreementAccountBean accountBean) throws Exception {
+        List<Stream> streamList = new LinkedList<>();
+        List<PlayUrlBean> playUrlList = new LinkedList<>();
         JSONArray categoryArray = JSONArray.parseArray(resourceJsonMap.get("live-category"));
         for (int i = 0; i < categoryArray.size(); i++) {
             String categoryName = categoryArray.getJSONObject(i).getString("category_name");
@@ -79,39 +86,52 @@ public class PlatinumStreamService extends UpdateStreamInfoService {
                 Stream stream;
                 JSONObject channel = channelArray.getJSONObject(j);
                 if (!channel.getString("stream_url").equals("empty")) {
-                    stream = new Stream(channel.getString("stream_id"), channel.getString("stream_name"), channel.getString("stream_icon"), accountBean.getType(), channel.getString("category_id"), categoryName, "live");           
-                    Stream streamTemp = streamService.getStreamFromMongo(stream);
-                    if (streamTemp == null) {
-                        streamService.addStreamIntoMongo(stream);
-                    } else {
-                        stream.set_id(streamTemp.get_id());
-                    }
-                    playUrlService.addOrUpdatePlayUrl(stream, accountBean, channel.getString("stream_url"), resourceJsonMap.get("userAgent"));
+                    stream = new Stream(channel.getString("stream_id"), 
+                    channel.getString("stream_name"), channel.getString("stream_icon"), 
+                    accountBean.getType(), channel.getString("category_id"), categoryName, "live");           
+                    streamService.findStreamFromMongoAndAddList(stream.get_id(), stream, streamList);
+                    playUrlService.addPlayUrlToList(stream, accountBean, channel.getString("stream_url"), playUrlList, resourceJsonMap.get("userAgent"));
                 }
             }
         }
+        MongoData mongoData = new MongoData(streamList, playUrlList);
+
+        String[] subIds = resourceJsonMap.get("sub-id").split("/");
+        String[] subNames = resourceJsonMap.get("sub-name").split("/");
+        for (int i = 0; i < subIds.length; i++) {
+            String subId = subIds[i];
+            String subName = subNames[i];
+            String url = "http://majood.net/iptv/API-V4.php?mode=movies_list&code=" + accountBean.getCode() + "&mac=" + accountBean.getMac() + "&sn=" + accountBean.getSn() + "&catid=" + subId + "&raw=yes";
+            String resultString = HttpClientUtil.sendHttpGet(url);
+            if (resultString != null) {
+                mongoData.addMongoData(updateMovieChannel(resultString, subName, resourceJsonMap.get("userAgent"), accountBean, subId));
+            } 
+        }
+        return mongoData;
 	}
 
-    private void updateMovieChannel(String channelStrings, String categoryName, String userAgent, AgreementAccountBean accountBean, String categoryId) {
+    private MongoData updateMovieChannel(String channelStrings, String categoryName, String userAgent, AgreementAccountBean accountBean, String categoryId) {
         JSONArray channelArray = JSONArray.parseArray(channelStrings);
+        List<Stream> streamList = new LinkedList<>();
+        List<PlayUrlBean> playUrlList = new LinkedList<>();
         for (int i = 0; i < channelArray.size(); i++) {
             JSONObject channel = channelArray.getJSONObject(i);
             if (!channel.getString("stream_url").equals("empty")) {
                 Stream stream;
                 if (categoryId.equals("0")) {
-                    stream = new Stream(channel.getString("stream_id"), channel.getString("stream_name"), channel.getString("stream_icon"), accountBean.getType(), channel.getString("category_id"), categoryName, "live"); 
+                    stream = new Stream(channel.getString("stream_id"), 
+                    channel.getString("stream_name"), channel.getString("stream_icon"), 
+                    accountBean.getType(), channel.getString("category_id"), categoryName, "live"); 
                 } else {
-                    stream = new Stream(channel.getString("id"), channel.getString("title"), channel.getString("icon"), accountBean.getType(), categoryId, categoryName, "movie");
+                    stream = new Stream(channel.getString("id"), 
+                    channel.getString("title"), channel.getString("icon"), 
+                    accountBean.getType(), categoryId, categoryName, "movie");
                 } 
-                Stream streamTemp = streamService.getStreamFromMongo(stream);
-                if (streamTemp == null) {
-                    streamService.addStreamIntoMongo(stream);
-                } else {
-                    stream.set_id(streamTemp.get_id());
-                }
-                playUrlService.addOrUpdatePlayUrl(stream, accountBean, channel.getString("stream_url"), userAgent);
+                streamService.findStreamFromMongoAndAddList(stream.get_id(), stream, streamList);
+                playUrlService.addPlayUrlToList(stream, accountBean, channel.getString("stream_url"), playUrlList, userAgent);
             }
         }
+        return new MongoData(streamList, playUrlList);
     }
     
 }

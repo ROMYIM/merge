@@ -1,5 +1,6 @@
 package com.merge.domain;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,6 +14,11 @@ public class MongoData {
     public MongoData(List<Stream> streamList, List<PlayUrlBean> playUrlList) {
         this.playUrlList = playUrlList;
         this.streamList = streamList;
+    }
+
+    public MongoData() {
+        this.playUrlList = new LinkedList<>();
+        this.streamList = new LinkedList<>();
     }
 
     /**

@@ -82,8 +82,7 @@ public class AgreementTestController {
             @RequestParam("second")String second,
             @RequestParam("interval")String interval) {
         //第一次任务时间需从页面获取，重新访问界面，提示定时器已执行，若确认修改，则动态修改定时时间
-        System.out.println(hour+":"+minute+":"+second+"----"+interval);
-        String cron = second+" "+minute+" "+hour+" * * ?";
+        LOGGER.info(hour+":"+minute+":"+second+"----"+interval);
         task.resetIntervalTask(hour, minute, second, interval);
         return "success";
     }

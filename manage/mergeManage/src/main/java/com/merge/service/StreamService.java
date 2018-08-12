@@ -88,6 +88,14 @@ public class StreamService {
         }
     }
 
+    public void addStreamListIntoMongo(List<Stream> streamList) {
+        if (streamList != null && streamList.size() > 0) {
+            for (Stream stream : streamList) {
+                mongoTemplate.insert(stream, "stream");
+            }
+        }
+    }
+
     public int updateStreamRelation(String streamid, String categoryid, String type) {
         //更新stream与channel的关联
         Stream stream = getStreamFromMongo(streamid, categoryid, type);

@@ -42,6 +42,22 @@ public class PlayUrlService {
         }
     }
 
+    public void addOrUpdatePlayUrl(List<PlayUrlBean> playUrlList) {
+        if (playUrlList != null && playUrlList.size() > 0) {
+            for (PlayUrlBean playUrlBean : playUrlList) {
+                Criteria criteria = Criteria.where("streamid").is(playUrlBean.getStreamid())
+                .and("mac").is(playUrlBean.getMac()).and("code").is(playUrlBean.getCode())
+                .and("sn").is(playUrlBean.getSn()).and("type").is(playUrlBean.getType())
+                .and("_class").is(PlayUrlBean.class.getName());
+                if (playUrlBean.getUserAgent() != null && playUrlBean.getUserAgent().length() > 0) {
+                    criteria = criteria.and("userAgent").is(playUrlBean.getUserAgent());
+                }
+                Update update = Update.update("playurl", playUrlBean.getPlayurl()).set("flag", 0);
+                mongoTemplate.upsert(Query.query(criteria), update, "playUrlBean");
+            }
+        }
+    }
+
     public void addPlayUrlToList(Stream stream, AgreementAccountBean accountBean, String playUrl, List<PlayUrlBean> playUrlList) {
         PlayUrlBean playUrlBean = new PlayUrlBean(stream.get_id(), accountBean, playUrl, 0);
         playUrlList.add(playUrlBean);
